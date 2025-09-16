@@ -3,64 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mantenimiento - NivelMat</title>
+  <title>NivelMat - Curso de Nivelación Matemática</title>
   <style>
-    :root { --azul:#003366; }
-    body { font-family: Arial, sans-serif; margin:0; background:#f6f7fb; color:#333; }
-    header { text-align: center; padding: 16px 12px; background: var(--azul); color: #fff; }
-    header img.logo-nivelmat { max-height: 80px; margin-bottom: 6px; display:block; margin-left:auto; margin-right:auto; }
-    header h1 { margin: 6px 0 10px; font-size: clamp(18px, 3.5vw, 26px); font-weight: 700; }
-    nav { display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
-    nav a { color:#fff; text-decoration:none; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.25); }
-    nav a:hover { background: rgba(255,255,255,.12); }
-    .logos { display:flex; justify-content:center; align-items:center; gap:22px; padding:20px 12px; flex-wrap:wrap; }
-    .logos img { height: 58px; object-fit: contain; }
-    main { max-width: 860px; margin: 40px auto; padding: 0 16px; text-align:center; }
-    h2 { color: var(--azul); font-size: clamp(22px, 4.5vw, 32px); margin-bottom: 16px; }
-    p { font-size: clamp(14px, 2.5vw, 18px); line-height:1.6; }
-    footer { text-align:center; color:#667; padding:24px 12px 40px; font-size:14px; }
-    <script>
-      const hora = new Date().getHours();
-      if (hora >= 18 || hora < 6) {
-        document.body.classList.add("modo-oscuro");
-      }
-    </script>
-    <style>
-      .modo-oscuro {
-        background: #111;
-        color: #eee;
-      }
-      .modo-oscuro header { background: #222; }
-      .modo-oscuro nav a { color: #eee; border-color: rgba(255,255,255,.3); }
-    </style>
+    :root { --azul: #003366; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      color: #333;
+    }
+
+    header {
+      background: var(--azul);
+      color: #fff;
+      padding: 12px;
+      position: relative;
+      text-align: center;
+    }
+
+    header img.logo-nivelmat {
+      max-height: 70px;
+      display: block;
+      margin: 0 auto 6px;
+    }
+
+    header h1 {
+      margin: 6px 0;
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 700;
+    }
+
+    /* Botón hamburguesa */
+    .menu-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      display: none; /* solo móvil */
+    }
+
+    /* Menú lateral */
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100%;
+      background: var(--azul);
+      color: #fff;
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 999;
+    }
+
+    #sideMenu.show { left: 0; }
+
+    #sideMenu .close-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #fff;
+      cursor: pointer;
+      float: right;
+    }
+
+    #sideMenu ul {
+      list-style: none;
+      padding: 0;
+      margin: 40px 0 0;
+    }
+
+    #sideMenu ul li {
+      margin: 12px 0;
+    }
+
+    #sideMenu ul li a,
+    #sideMenu ul li span {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 6px 0;
+      font-size: 16px;
+    }
+
+    #sideMenu ul li ul {
+      margin-left: 14px;
+      margin-top: 6px;
+    }
+
+    #sideMenu .separador {
+      margin-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.4);
+      padding-top: 10px;
+    }
+
+    /* PC: menú visible arriba */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover { background: rgba(255,255,255,.15); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { display: none; } /* ocultar menú en móvil */
+      .menu-btn { display: block; }
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      color: #667;
+      padding: 24px 12px 40px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
   <header>
     <img src="logo.png" class="logo-nivelmat" />
     <h1>NivelMat - Curso de Nivelación Matemática</h1>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <!-- Menú en PC -->
     <nav>
-      <a href="https://nivelmat.github.io/home/">Inicio</a>
-      <a href="https://nivelmat.github.io/preinscripcion/">Preinscripción</a>
-      <a href="https://nivelmat.github.io/contacto/">Contacto</a>
+      <div>
+        <span>Información General ▾</span>
+        <a href="home.html">Home</a>
+        <a href="contacto.html">Contactos</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="cronograma.html">Cronograma</a>
+      </div>
+      <a href="preinscripcion.html">Preinscripción</a>
+      <a href="datos.html">¿Cómo manejamos los datos?</a>
     </nav>
   </header>
 
-  <div class="logos">
-    <img src="logo2.png" />
-    <img src="logo3.jpg" />
-    <img src="logo4.png" />
-    <img src="logo5.jpg" />
-  </div>
+  <!-- Menú lateral (solo móvil) -->
+  <aside id="sideMenu">
+    <button class="close-btn" onclick="toggleMenu()">✖</button>
+    <ul>
+      <li>
+        <span>Información General ▸</span>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="contacto.html">Contactos</a></li>
+          <li><a href="pagos.html">Pagos</a></li>
+          <li><a href="cronograma.html">Cronograma</a></li>
+        </ul>
+      </li>
+      <li><a href="preinscripcion.html">Preinscripción</a></li>
+      <li class="separador"><a href="datos.html">¿Cómo manejamos los datos?</a></li>
+    </ul>
+  </aside>
 
   <main>
-    <h2>Estamos en mantenimiento</h2>
-    <p>En estos momentos la página de <strong>NivelMat</strong> está en construcción.<br>
-    Vuelva más tarde para acceder al contenido.</p>
+    <h2>Bienvenido a NivelMat</h2>
+    <p>Aquí encontrarás toda la información sobre el Curso de Nivelación Matemática de la UCV.</p>
   </main>
 
   <footer>
     © 2025 NivelMat – Escuela de Matemática, UCV
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("sideMenu").classList.toggle("show");
+    }
+  </script>
 </body>
 </html>
