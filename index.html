@@ -187,8 +187,8 @@
 			</div>
 
 			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Número de Teléfono <span style="color:#d32f2f;">*</span></label>
-				<input id="telefono" type="tel" placeholder="+584XXXXXXXXX o 04XXXXXXXXX" required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Numero de celular al que lo podamos contactar <span style="color:#d32f2f;">*</span></label>
+				<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 				<small id="telefonoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 			</div>
 
@@ -277,7 +277,7 @@
 			}
 		}
 
-		// C.I.: permitir sólo dígitos en tiempo real y validar rango
+		// C.I.: permitir sólo dígitos en tiempo real y validar rango según prefijo
 		function validarCIInput(input) {
 			const cleaned = input.value.replace(/\D/g, '');
 			const errEl = document.getElementById('ciError');
@@ -287,9 +287,11 @@
 			}
 			// validar rango si tiene al menos 1 dígito
 			const num = parseInt(cleaned, 10);
+			const prefijo = document.getElementById('ciPrefijo').value;
 			if (!isNaN(num)) {
-				if (!(num > 1000000 && num < 35000000)) {
-					setError(errEl, 'La cédula debe ser > 1.000.000 y < 35.000.000');
+				// Si es V, validar rango. Si es E, no hay límites.
+				if (prefijo === 'V' && !(num > 1000000 && num < 35000000)) {
+					setError(errEl, 'La cédula V debe ser > 1.000.000 y < 35.000.000');
 				} else {
 					clearError(errEl);
 				}
@@ -313,11 +315,12 @@
 
 		function validarTelefono(input) {
 			const v = input.value.trim();
-			const patrones = [/^\+584\d{9}$/, /^04\d{9}$/, /^02\d{9}$/];
+			// Aceptar cualquier teléfono que empiece con + seguido de dígitos, o 04 seguido de dígitos
+			const patrones = [/^\+\d+$/, /^04\d+$/];
 			const errEl = document.getElementById('telefonoError');
 			const ok = patrones.some(r => r.test(v));
 			if (!ok) {
-				setError(errEl, 'Formato inválido. Use +584XXXXXXXXX o 04XXXXXXXXX o 02XXXXXXXXX');
+				setError(errEl, 'Formato inválido');
 			} else {
 				clearError(errEl);
 			}
@@ -345,6 +348,13 @@
 		// Validación final antes de enviar: evitar envío mientras existan errores visibles
 		document.querySelector('form').addEventListener('submit', async function(ev) {
 			ev.preventDefault();
+			
+			// Declarar variables de configuración PRIMERO (antes de usarlas)
+			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
+			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIZtuqGa5If6oqy9sVj9X6eXxevI2LbRJl3K8VzzfTZNPYDKIura3WS6_5n4knI2Vj/exec';
+			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
+			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
+			
 			let ok = true;
 			// Validaciones repetidas (asegurar que nada inválido quede)
 			const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
@@ -393,26 +403,9 @@
 				universidad: document.getElementById('universidadNombre').value || '',
 				carrera: document.getElementById('universidadCarrera').value || '',
 				telefono: document.getElementById('telefono').value.trim(),
-				correo: document.getElementById('correo').value.trim()
+				correo: document.getElementById('correo').value.trim(),
+				token: APPS_SCRIPT_TOKEN
 			};
-
-			// incluir token en el cuerpo para que Apps Script lo valide
-			// (Apps Script no expone headers para validación, por eso lo añadimos al payload)
-			// Nota: este token será visible en el cliente (por diseño). Para privacidad total, usar soluciones server-side.
-			payload.token = APPS_SCRIPT_TOKEN;
-
-			// API URL: puedes usar un servicio gratuito como Formspree (sin servidor).
-			// Opciones:
-			//  - Formspree: crea una cuenta y copia el endpoint (ej: https://formspree.io/f/TU_ID)
-			//  - Si ya desplegaste tu propio servidor, pon su URL aquí.
-			// Detecta si la página se sirve desde nivelmat.github.io (cualquier repo bajo esa organización/usuario)
-			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
-			// POR DEFECTO: usa Google Apps Script endpoint en producción.
-			// Web App desplegada exitosamente.
-			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIZtuqGa5If6oqy9sVj9X6eXxevI2LbRJl3K8VzzfTZNPYDKIura3WS6_5n4knI2Vj/exec';
-			// Opcional: si configuras un token en el Apps Script, ponlo aquí (ojo: público en el cliente).
-			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
-			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
 
 			const btn = this.querySelector('button[type=submit]');
 			btn.disabled = true;
