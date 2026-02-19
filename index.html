@@ -387,6 +387,7 @@
 				ci: document.getElementById('ciNumero').value.replace(/\D/g,''),
 				nombres: document.getElementById('nombres').value.trim(),
 				apellidos: document.getElementById('apellidos').value.trim(),
+				es_bachiller: document.getElementById('esBachiller').value,
 				colegio: document.getElementById('colegioProcedencia').value || '',
 				estudia_universidad: document.getElementById('estudiaUniversidad').value,
 				universidad: document.getElementById('universidadNombre').value || '',
@@ -408,7 +409,7 @@
 			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
 			// POR DEFECTO: usa Google Apps Script endpoint en producción.
 			// Web App desplegada exitosamente.
-			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxk3uqYGqTqjNK-5Y-DrJ_u7PXs5gvcbEXyUPHurH8P6kB-Sm6KwXMYADlKtVvSzBXevA/exec';
+			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIZtuqGa5If6oqy9sVj9X6eXxevI2LbRJl3K8VzzfTZNPYDKIura3WS6_5n4knI2Vj/exec';
 			// Opcional: si configuras un token en el Apps Script, ponlo aquí (ojo: público en el cliente).
 			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
 			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
