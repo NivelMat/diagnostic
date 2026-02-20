@@ -78,6 +78,23 @@
 				.boton-esferico { padding: 8px 16px; font-size: 0.95em; }
 			}
 		</style>
+		<style>
+			/* Multi-pane (condiciones -> formulario) */
+			.multi-pane { max-width: 800px; margin: 40px auto 0 auto; position: relative; overflow: hidden; border-radius: 18px; }
+			.multi-pane .panes { position: relative; }
+			.pane { background: #fff; padding: 36px 32px; box-shadow: 0 6px 32px rgba(0,0,0,0.13); border-radius: 18px; transition: transform 0.64s cubic-bezier(.2,.9,.2,1), opacity 0.48s ease; position: absolute; left: 0; right: 0; top: 0; }
+			.pane-info { z-index: 2; }
+			.pane-form { opacity: 0; transform: translateY(16px); pointer-events: none; }
+			.pane-success { opacity: 0; transform: translateY(16px); pointer-events: none; }
+			.multi-pane.show-form .pane-info { transform: translateY(-120%); opacity: 0; }
+			.multi-pane.show-form .pane-form { transform: translateY(0); opacity: 1; pointer-events: auto; }
+			.multi-pane.show-success .pane-form { transform: translateY(-120%); opacity: 0; pointer-events: none; }
+			.multi-pane.show-success .pane-success { transform: translateY(0); opacity: 1; pointer-events: auto; }
+			.interesado-btn { background: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight:700; cursor:pointer; }
+			.interesado-btn:hover { background: var(--secundary-color); }
+			/* Asegurar buena experiencia en móvil */
+			@media (max-width:600px){ .pane { padding: 20px; } .pane + .pane{ margin-top:14px;} }
+		</style>
 				<style>
 				.info-rect {
 					max-width: 800px;
@@ -120,11 +137,27 @@
 			</div>
 		</div>
 </div>
-	<div class="info-rect fadein delay2">
-		<h2 style="margin-top:0;color:#222;">Formulario de Preinscripción</h2>
-		<p style="color:#888;margin-bottom:24px;">Intente llenar todos los campos</p>
+	<div class="multi-pane fadein delay2 info-rect">
+		<div class="panes">
+			<section class="pane pane-info">
+				<h2 style="margin-top:0;color:#222;">Condiciones y ¿Qué es?</h2>
+				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
+					<strong>NivelMat</strong> es un curso organizado por la Comisión de Extensión de la Facultad de Ciencias, UCV, junto a la Escuela de Matemática. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios.
+				</p>
+				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
+					Su costo es de <strong>135$</strong>, lo cual puede pagar en dólares en efectivo o transferencia bancaria en bolívares a tasa BCV, la cual se debe realizar el día de la inscripción.
+				</p>
+				<p style="color:#666;text-align:left;margin-bottom:22px;">Por favor lea las condiciones con atención antes de continuar.</p>
+				<div style="text-align:center;">
+					<button id="interesadoBtn" class="interesado-btn">¿Está usted interesado?</button>
+				</div>
+			</section>
 
-		<form style="text-align:left;">
+			<section class="pane pane-form" aria-hidden="true">
+				<h2 style="margin-top:0;color:#222;">Formulario de Preinscripción</h2>
+				<p style="color:#888;margin-bottom:24px;">Intente llenar todos los campos</p>
+
+				<form style="text-align:left;">
 			<div style="margin-bottom:16px;">
 				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Nombres <span style="color:#d32f2f;">*</span></label>
 				<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
@@ -202,6 +235,9 @@
 				Enviar Preinscripción
 			</button>
 		</form>
+			</form>
+		</section>
+		</div>
 	</div>
 
 	<script>
@@ -245,10 +281,75 @@
 			}
 		}
 
-		// Inicializar colores de selects al cargar
+			// Inicializar colores de selects al cargar
 		document.addEventListener('DOMContentLoaded', function() {
 			const selects = [document.getElementById('esBachiller'), document.getElementById('estudiaUniversidad'), document.getElementById('ciPrefijo')];
 			selects.forEach(s => { if (s) actualizarColorSelect(s); });
+
+			const multiPane = document.querySelector('.multi-pane');
+			if (!multiPane) return;
+
+			const panes = {
+				info: multiPane.querySelector('.pane-info'),
+				form: multiPane.querySelector('.pane-form'),
+				success: multiPane.querySelector('.pane-success')
+			};
+
+			function updateContainerHeight(el){
+				if (!el) return;
+				multiPane.style.height = el.offsetHeight + 'px';
+			}
+
+			function setActivePane(name){
+				const order = ['info','form','success'];
+				const activeIndex = order.indexOf(name);
+				order.forEach((nm, idx) => {
+					const el = panes[nm];
+					if (!el) return;
+					if (idx === activeIndex) {
+						el.style.transform = 'translateY(0)';
+						el.style.opacity = '1';
+						el.style.pointerEvents = 'auto';
+						el.setAttribute('aria-hidden','false');
+					} else if (idx < activeIndex) {
+						el.style.transform = 'translateY(-120%)';
+						el.style.opacity = '0';
+						el.style.pointerEvents = 'none';
+						el.setAttribute('aria-hidden','true');
+					} else {
+						el.style.transform = 'translateY(16px)';
+						el.style.opacity = '0';
+						el.style.pointerEvents = 'none';
+						el.setAttribute('aria-hidden','true');
+					}
+				});
+				updateContainerHeight(panes[name]);
+			}
+
+			// aplicar posicionamiento y altura inicial
+			const allPanes = multiPane.querySelectorAll('.pane');
+			allPanes.forEach(p => { p.style.position='absolute'; p.style.left='0'; p.style.right='0'; p.style.top='0'; });
+			setTimeout(()=> setActivePane('info'), 30);
+
+			// Exponer para otras partes del script
+			window.setActivePane = setActivePane;
+
+			// Botón "¿Está usted interesado?": mostrar formulario con animación
+			const interesadoBtn = document.getElementById('interesadoBtn');
+			if (interesadoBtn) {
+				interesadoBtn.addEventListener('click', function(ev){
+					ev.preventDefault();
+					setActivePane('form');
+					setTimeout(()=>{
+						const firstField = multiPane.querySelector('.pane-form form input, .pane-form form select, .pane-form form textarea, .pane-form form button');
+						if (firstField) firstField.focus();
+					}, 520);
+				});
+			}
+
+			// Finalizar desde pane de éxito: volver a info
+			const finalizarBtn = document.getElementById('finalizarBtn');
+			if (finalizarBtn) finalizarBtn.addEventListener('click', function(){ setActivePane('info'); });
 		});
 
 		// --- Validaciones en tiempo real y antes de enviar ---
@@ -420,9 +521,9 @@
 				});
 				const data = await resp.json();
 				if (resp.ok) {
-					alert('Preinscripción enviada correctamente. Gracias.');
+					// Mostrar pane de éxito y limpiar formulario
+					if (window.setActivePane) window.setActivePane('success');
 					this.reset();
-					// limpiar errores si hay
 					document.querySelectorAll('small').forEach(s => s.style.display = 'none');
 				} else {
 					alert('Error al enviar: ' + (data.error || resp.statusText));
