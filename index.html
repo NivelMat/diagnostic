@@ -414,7 +414,8 @@
 			try {
 				const resp = await fetch(API_URL, {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Sheet-Token': APPS_SCRIPT_TOKEN },
+					// Enviar como text/plain para evitar preflight CORS (Apps Script no responde OPTIONS)
+					headers: { 'Content-Type': 'text/plain', 'Accept': 'application/json' },
 					body: JSON.stringify(payload)
 				});
 				const data = await resp.json();
