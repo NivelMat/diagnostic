@@ -82,14 +82,10 @@
 			/* Multi-pane (condiciones -> formulario) */
 			.multi-pane { max-width: 800px; margin: 40px auto 0 auto; position: relative; overflow: hidden; border-radius: 18px; }
 			.multi-pane .panes { position: relative; }
-			.pane { background: #fff; padding: 36px 32px; box-shadow: 0 6px 32px rgba(0,0,0,0.13); border-radius: 18px; transition: transform 0.64s cubic-bezier(.2,.9,.2,1), opacity 0.48s ease; position: absolute; left: 0; right: 0; top: 0; }
-			.pane-info { z-index: 2; }
-			.pane-form { opacity: 0; transform: translateY(16px); pointer-events: none; }
-			.pane-success { opacity: 0; transform: translateY(16px); pointer-events: none; }
-			.multi-pane.show-form .pane-info { transform: translateY(-120%); opacity: 0; }
-			.multi-pane.show-form .pane-form { transform: translateY(0); opacity: 1; pointer-events: auto; }
-			.multi-pane.show-success .pane-form { transform: translateY(-120%); opacity: 0; pointer-events: none; }
-			.multi-pane.show-success .pane-success { transform: translateY(0); opacity: 1; pointer-events: auto; }
+			.pane { background: #fff; padding: 36px 32px; box-shadow: 0 6px 32px rgba(0,0,0,0.13); border-radius: 18px; transition: opacity 0.48s ease; position: absolute; left: 0; right: 0; top: 0; }
+			.pane-info { z-index: 2; visibility: visible; }
+			.pane-form { visibility: hidden; opacity: 0; }
+			.pane-success { visibility: hidden; opacity: 0; }
 			.interesado-btn { background: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight:700; cursor:pointer; }
 			.interesado-btn:hover { background: var(--secundary-color); }
 			/* Asegurar buena experiencia en móvil */
@@ -335,20 +331,13 @@
 					const el = panes[nm];
 					if (!el) return;
 					if (idx === activeIndex) {
-						el.style.transform = 'translateY(0)';
+						el.style.visibility = 'visible';
 						el.style.opacity = '1';
 						el.style.pointerEvents = 'auto';
-						el.removeAttribute('aria-hidden');
-					} else if (idx < activeIndex) {
-						el.style.transform = 'translateY(-120%)';
-						el.style.opacity = '0';
-						el.style.pointerEvents = 'none';
-						el.setAttribute('aria-hidden','true');
 					} else {
-						el.style.transform = 'translateY(16px)';
+						el.style.visibility = 'hidden';
 						el.style.opacity = '0';
 						el.style.pointerEvents = 'none';
-						el.setAttribute('aria-hidden','true');
 					}
 				});
 				updateContainerHeight(panes[name]);
