@@ -140,20 +140,17 @@
 	<div class="multi-pane fadein delay2 info-rect">
 		<div class="panes">
 			<section class="pane pane-info">
-				<h2 style="margin-top:0;color:#222;">Condiciones y ¿Qué es?</h2>
+				<h2 style="margin-top:0;color:#222;">¿Qué es?</h2>
 				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
 					<strong>NivelMat</strong> es un curso organizado por la Comisión de Extensión de la Facultad de Ciencias, UCV, junto a la Escuela de Matemática. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios.
 				</p>
-				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
-					Su costo es de <strong>135$</strong>, lo cual puede pagar en dólares en efectivo o transferencia bancaria en bolívares a tasa BCV, la cual se debe realizar el día de la inscripción.
-				</p>
-				<p style="color:#666;text-align:left;margin-bottom:22px;">Por favor lea las condiciones con atención antes de continuar.</p>
+				<p style="color:#666;text-align:left;margin-bottom:22px;">Por favor lea con atención antes de continuar.</p>
 				<div style="text-align:center;">
 					<button id="interesadoBtn" class="interesado-btn">¿Está usted interesado?</button>
 				</div>
 			</section>
 
-			<section class="pane pane-form" aria-hidden="true">
+			<section class="pane pane-form">
 				<h2 style="margin-top:0;color:#222;">Formulario de Preinscripción</h2>
 				<p style="color:#888;margin-bottom:24px;">Intente llenar todos los campos</p>
 
@@ -237,7 +234,7 @@
 			</form>
 		</section>
 
-		<section class="pane pane-success" aria-hidden="true">
+		<section class="pane pane-success">
 			<div style="text-align:center;">
 				<div style="font-size:3em;margin-bottom:16px;color:var(--primary-color);">✓</div>
 				<h2 style="margin-top:0;color:#222;">Preinscripción Enviada</h2>
@@ -341,7 +338,7 @@
 						el.style.transform = 'translateY(0)';
 						el.style.opacity = '1';
 						el.style.pointerEvents = 'auto';
-						el.setAttribute('aria-hidden','false');
+						el.removeAttribute('aria-hidden');
 					} else if (idx < activeIndex) {
 						el.style.transform = 'translateY(-120%)';
 						el.style.opacity = '0';
