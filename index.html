@@ -124,8 +124,12 @@
 				</style>
 </head>
 <body>
-		<div class="superior">
-			<img src="nivelmat.png" alt="Logo NivelMat" class="logo-nivelmat fadein delay1" />
+		<div class="superior">		<div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap;">
+			<img src="ucv.png" alt="UCV" style="height:50px;width:auto;">
+			<img src="cefc.png" alt="CEFC" style="height:50px;width:auto;">
+			<img src="fc.png" alt="FC" style="height:50px;width:auto;">
+			<img src="em.png" alt="EM" style="height:50px;width:auto;">
+		</div>			<img src="nivelmat.png" alt="Logo NivelMat" class="logo-nivelmat fadein delay1" />
 			<div class="titulo-nivelmat fadein delay2">NivelMat - Curso de Nivelación Matemática</div>
 			<div class="botones-nav fadein delay3">
 				<a href="https://nivelmat.github.io/home/" style="text-decoration:none;"><button class="boton-esferico">Inicio</button></a>
@@ -147,88 +151,121 @@
 			</section>
 
 			<section class="pane pane-form">
-				<h2 style="margin-top:0;color:#222;">Formulario de Preinscripción</h2>
-				<p style="color:#888;margin-bottom:24px;">Intente llenar todos los campos</p>
-
-				<form style="text-align:left;">
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Nombres <span style="color:#d32f2f;">*</span></label>
-				<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				<small id="nombresError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
-			</div>
-
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Apellidos <span style="color:#d32f2f;">*</span></label>
-				<input id="apellidos" type="text" placeholder="Tus apellidos" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				<small id="apellidosError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
-			</div>
-
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Cédula <span style="color:#d32f2f;">*</span></label>
-				<div style="display:flex;gap:8px;align-items:center;">
-					<select id="ciPrefijo" onchange="actualizarColorSelect(this)" required style="width:96px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
-						<option value="V">V</option>
-						<option value="E">E</option>
-					</select>
-					<input id="ciNumero" type="text" placeholder="Formato: 12345678" required oninput="validarCIInput(this)" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				</div>
-				<small id="ciError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
-			</div>
-
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Eres bachiller? <span style="color:#d32f2f;">*</span></label>
-				<select id="esBachiller" onchange="mostrarCamposBachiller()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
-					<option value="">Selecciona una opción</option>
-					<option value="si">Sí</option>
-					<option value="no">No</option>
-				</select>
-			</div>
-
-			<div id="camposBachiller" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
-				<div style="margin-bottom:16px;">
-					<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Colegio de procedencia <span style="color:#888;">(opcional)</span></label>
-					<input id="colegioProcedencia" type="text" placeholder="Nombre del colegio" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				</div>
-			</div>
-
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Estudias en una universidad? <span style="color:#d32f2f;">*</span></label>
-				<select id="estudiaUniversidad" onchange="mostrarCamposUniversidad()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
-					<option value="">Selecciona una opción</option>
-					<option value="si">Sí</option>
-					<option value="no">No</option>
-				</select>
-			</div>
-
-			<div id="camposUniversidad" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
-				<div style="margin-bottom:16px;">
-					<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Universidad <span style="color:#d32f2f;">*</span></label>
-					<input id="universidadNombre" type="text" placeholder="Nombre de la universidad" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+					<button id="btnAtras" onclick="navegarFormulario(-1)" style="background:none;border:none;font-size:1.5em;cursor:pointer;color:#009;">←</button>
+					<h2 style="margin:0;color:#222;flex:1;text-align:center;">Formulario de Preinscripción</h2>
+					<span id="numPagina" style="font-weight:600;color:#009;font-size:1.1em;">1/4</span>
 				</div>
 
-				<div style="margin-bottom:0;">
-					<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Carrera <span style="color:#d32f2f;">*</span></label>
-					<input id="universidadCarrera" type="text" placeholder="Nombre de la carrera" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+				<!-- Sección 1: Datos Personales -->
+				<div class="form-section" id="seccion1">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos Personales</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Nombres <span style="color:#d32f2f;">*</span></label>
+						<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="nombresError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Apellidos <span style="color:#d32f2f;">*</span></label>
+						<input id="apellidos" type="text" placeholder="Tus apellidos" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="apellidosError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:24px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Cédula <span style="color:#d32f2f;">*</span></label>
+						<div style="display:flex;gap:8px;align-items:center;">
+							<select id="ciPrefijo" onchange="actualizarColorSelect(this)" required style="width:96px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+								<option value="V">V</option>
+								<option value="E">E</option>
+							</select>
+							<input id="ciNumero" type="text" placeholder="Formato: 12345678" required oninput="validarCIInput(this)" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						</div>
+						<small id="ciError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
 				</div>
-			</div>
 
-			<div style="margin-bottom:16px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Numero de celular al que lo podamos contactar <span style="color:#d32f2f;">*</span></label>
-				<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				<small id="telefonoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
-			</div>
+				<!-- Sección 2: Datos de Estudio -->
+				<div class="form-section" id="seccion2" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Estudio</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Eres bachiller? <span style="color:#d32f2f;">*</span></label>
+						<select id="esBachiller" onchange="mostrarCamposBachiller()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="">Selecciona una opción</option>
+							<option value="si">Sí</option>
+							<option value="no">No</option>
+						</select>
+					</div>
 
-			<div style="margin-bottom:24px;">
-				<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Gmail <span style="color:#d32f2f;">*</span></label>
-				<input id="correo" type="email" placeholder="tu.email@gmail.com" required onblur="validarCorreo(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
-				<small id="correoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
-			</div>
+					<div id="camposBachiller" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
+						<div style="margin-bottom:0;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Colegio de procedencia <span style="color:#888;">(opcional)</span></label>
+							<input id="colegioProcedencia" type="text" placeholder="Nombre del colegio" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						</div>
+					</div>
 
-			<button type="submit" class="boton-esferico enviar-btn" style="width:100%;padding:12px;font-size:1.1em;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:background 0.2s;">
-				Enviar Preinscripción
-			</button>
-			</form>
-		</section>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Estudias en una universidad? <span style="color:#d32f2f;">*</span></label>
+						<select id="estudiaUniversidad" onchange="mostrarCamposUniversidad()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="">Selecciona una opción</option>
+							<option value="si">Sí</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+
+					<div id="camposUniversidad" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
+						<div style="margin-bottom:16px;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Universidad <span style="color:#d32f2f;">*</span></label>
+							<input id="universidadNombre" type="text" placeholder="Nombre de la universidad" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						</div>
+						<div style="margin-bottom:0;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Carrera <span style="color:#d32f2f;">*</span></label>
+							<input id="universidadCarrera" type="text" placeholder="Nombre de la carrera" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						</div>
+					</div>
+				</div>
+
+				<!-- Sección 3: Datos de Contacto -->
+				<div class="form-section" id="seccion3" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Contacto</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Número de celular <span style="color:#d32f2f;">*</span></label>
+						<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="telefonoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:24px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Gmail <span style="color:#d32f2f;">*</span></label>
+						<input id="correo" type="email" placeholder="tu.email@gmail.com" required onblur="validarCorreo(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="correoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+				</div>
+
+				<!-- Sección 4: Datos de Pago -->
+				<div class="form-section" id="seccion4" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Pago</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Método de pago <span style="color:#d32f2f;">*</span></label>
+						<select id="metodoPago" onchange="actualizarMensajePago()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="transferencia">Transferencia en bolívares</option>
+							<option value="dolares">Dólares en efectivo</option>
+						</select>
+					</div>
+					<div id="mensajePago" style="padding:16px;background:#f0f8ff;border-radius:8px;border:1px solid #d0e8ff;color:#333;line-height:1.6;">
+						Transferencia en bolívares el día de la inscripción a tasa BCV del monto de 135$.
+					</div>
+				</div>
+
+				<form id="formMultiseccion" style="display:none;">
+					<input type="hidden" name="datos">
+				</form>
+
+				<div style="display:flex;gap:12px;margin-top:24px;">
+					<button type="button" id="btnSiguiente" onclick="navegarFormulario(1)" style="flex:1;background:var(--primary-color);color:#fff;border:none;padding:12px;border-radius:6px;font-weight:600;cursor:pointer;font-size:1em;transition:background 0.2s;">
+						Siguiente
+					</button>
+				</div>
+			</section>
 
 		<section class="pane pane-success">
 			<div style="text-align:center;">
@@ -341,6 +378,23 @@
 					}
 				});
 				updateContainerHeight(panes[name]);
+				
+				// Mostrar/ocultar controles de navegación del formulario
+				const btnAtras = document.getElementById('btnAtras');
+				const numPagina = document.getElementById('numPagina');
+				const btnSiguiente = document.getElementById('btnSiguiente');
+				
+				if (name === 'form') {
+					if (btnAtras) btnAtras.style.display = 'block';
+					if (numPagina) numPagina.style.display = 'block';
+					if (btnSiguiente) btnSiguiente.style.display = 'block';
+					currentStep = 1;
+					updateStepUI();
+				} else {
+					if (btnAtras) btnAtras.style.display = 'none';
+					if (numPagina) numPagina.style.display = 'none';
+					if (btnSiguiente) btnSiguiente.style.display = 'none';
+				}
 			}
 
 			// aplicar posicionamiento y altura inicial
@@ -364,9 +418,18 @@
 				});
 			}
 
-			// Finalizar desde pane de éxito: volver a info
+			// Finalizar desde pane de éxito: redirigir a nivelmat.github.io/home/
 			const finalizarBtn = document.getElementById('finalizarBtn');
-			if (finalizarBtn) finalizarBtn.addEventListener('click', function(){ setActivePane('info'); });
+			if (finalizarBtn) {
+				finalizarBtn.addEventListener('click', function(){
+					const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
+					if (isNivelMatPages) {
+						window.location.href = 'https://nivelmat.github.io/home/';
+					} else {
+						setActivePane('info');
+					}
+				});
+			}
 		});
 
 		// --- Validaciones en tiempo real y antes de enviar ---
@@ -463,51 +526,204 @@
 			return true;
 		}
 
-		// Validación final antes de enviar: evitar envío mientras existan errores visibles
-		document.querySelector('form').addEventListener('submit', async function(ev) {
-			ev.preventDefault();
+		// Estado del formulario multi-paso
+		let currentStep = 1;
+
+		// Actualizar UI del paso actual
+		function updateStepUI() {
+			// Mostrar/ocultar secciones
+			for (let i = 1; i <= 4; i++) {
+				const sec = document.getElementById('seccion' + i);
+				if (sec) sec.style.display = i === currentStep ? 'block' : 'none';
+			}
 			
-			// Declarar variables de configuración PRIMERO (antes de usarlas)
+			// Actualizar número de página
+			document.getElementById('numPagina').textContent = currentStep + '/4';
+			
+			// Actualizar botones
+			const btnAtras = document.getElementById('btnAtras');
+			const btnSiguiente = document.getElementById('btnSiguiente');
+			
+			if (!btnAtras || !btnSiguiente) return; // Salir si los botones no existen
+			
+			if (currentStep === 1) {
+				btnAtras.style.visibility = 'hidden';
+			} else {
+				btnAtras.style.visibility = 'visible';
+			}
+			
+			if (currentStep === 4) {
+				btnSiguiente.textContent = 'Enviar';
+				btnSiguiente.onclick = async function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					await enviarFormulario();
+				};
+			} else {
+				btnSiguiente.textContent = 'Siguiente';
+				btnSiguiente.onclick = function() {
+					if (validarPaso(currentStep)) {
+						currentStep++;
+						updateStepUI();
+						// Ajustar altura del contenedor
+						setTimeout(() => {
+							const multiPane = document.querySelector('.multi-pane');
+							if (multiPane) {
+								const form = multiPane.querySelector('.pane-form');
+								if (form) {
+									multiPane.style.minHeight = form.scrollHeight + 'px';
+								}
+							}
+						}, 50);
+					}
+				};
+			}
+		}
+
+		// Validar paso actual
+		function validarPaso(paso) {
+			if (paso === 1) {
+				// Validar nombres
+				const nombres = document.getElementById('nombres').value.trim();
+				if (!nombres) {
+					setError(document.getElementById('nombresError'), 'Los nombres son obligatorios');
+					return false;
+				}
+				
+				// Validar apellidos
+				const apellidos = document.getElementById('apellidos').value.trim();
+				if (!apellidos) {
+					setError(document.getElementById('apellidosError'), 'Los apellidos son obligatorios');
+					return false;
+				}
+				
+				// Validar cédula
+				const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
+				const ciNum = parseInt(ciVal, 10);
+				const ciPrefijo = document.getElementById('ciPrefijo').value;
+				if (isNaN(ciNum) || ciVal.length === 0) {
+					setError(document.getElementById('ciError'), 'La cédula es obligatoria');
+					return false;
+				}
+				if (ciPrefijo === 'V' && !(ciNum > 1000000 && ciNum < 35000000)) {
+					setError(document.getElementById('ciError'), 'La cédula V debe ser > 1.000.000 y < 35.000.000');
+					return false;
+				}
+				
+				clearError(document.getElementById('nombresError'));
+				clearError(document.getElementById('apellidosError'));
+				clearError(document.getElementById('ciError'));
+				return true;
+			}
+			
+			if (paso === 2) {
+				// Validar bachiller
+				const esBachiller = document.getElementById('esBachiller').value;
+				if (!esBachiller) {
+					alert('Por favor selecciona si eres bachiller');
+					return false;
+				}
+				
+				// Validar universidad
+				const estudiaUniversidad = document.getElementById('estudiaUniversidad').value;
+				if (!estudiaUniversidad) {
+					alert('Por favor selecciona si estudias en universidad');
+					return false;
+				}
+				
+				if (estudiaUniversidad === 'si') {
+					const uni = document.getElementById('universidadNombre').value.trim();
+					const carrera = document.getElementById('universidadCarrera').value.trim();
+					if (!uni || !carrera) {
+						alert('Por favor completa la universidad y carrera');
+						return false;
+					}
+				}
+				
+				return true;
+			}
+			
+			if (paso === 3) {
+				// Validar teléfono
+				if (!validarTelefono(document.getElementById('telefono'))) return false;
+				
+				// Validar correo
+				if (!validarCorreo(document.getElementById('correo'))) return false;
+				
+				return true;
+			}
+			
+			if (paso === 4) {
+				// En el paso 4, no hay validación especial, sólo el envío
+				return true;
+			}
+			
+			return true;
+		}
+
+		// Navegar formulario hacia adelante o atrás
+		function navegarFormulario(direccion) {
+			if (direccion === -1) {
+				// Atrás
+				if (currentStep > 1) {
+					currentStep--;
+					updateStepUI();
+					setTimeout(() => {
+						const multiPane = document.querySelector('.multi-pane');
+						if (multiPane) {
+							const form = multiPane.querySelector('.pane-form');
+							if (form) {
+								multiPane.style.minHeight = form.scrollHeight + 'px';
+							}
+						}
+					}, 50);
+				}
+			} else if (direccion === 1) {
+				// Adelante - se valida en el onclick del botón
+			}
+		}
+
+		// Actualizar mensaje de pago
+		function actualizarMensajePago() {
+			const metodoPago = document.getElementById('metodoPago').value;
+			const mensajePago = document.getElementById('mensajePago');
+			
+			if (metodoPago === 'transferencia') {
+				mensajePago.innerHTML = 'Transferencia en bolívares el día de la inscripción a tasa BCV del monto de 135$.';
+			} else if (metodoPago === 'dolares') {
+				mensajePago.innerHTML = 'Dólares en efectivo. El monto será de $135 USD.';
+			}
+		}
+
+		// Enviar formulario
+		async function enviarFormulario() {
+			// Validaciones finales
+			const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
+			const ciNum = parseInt(ciVal, 10);
+			if (isNaN(ciNum) || !(ciNum > 1000000 && ciNum < 35000000)) {
+				setError(document.getElementById('ciError'), 'La cédula debe ser > 1.000.000 y < 35.000.000');
+				currentStep = 1;
+				updateStepUI();
+				return;
+			}
+
+			if (!validarTelefono(document.getElementById('telefono'))) {
+				currentStep = 3;
+				updateStepUI();
+				return;
+			}
+			
+			if (!validarCorreo(document.getElementById('correo'))) {
+				currentStep = 3;
+				updateStepUI();
+				return;
+			}
+
+			// Declarar variables de configuración
 			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
 			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIZtuqGa5If6oqy9sVj9X6eXxevI2LbRJl3K8VzzfTZNPYDKIura3WS6_5n4knI2Vj/exec';
 			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
 			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
-			
-			let ok = true;
-			// Validaciones repetidas (asegurar que nada inválido quede)
-			const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
-			const ciNum = parseInt(ciVal,10);
-			if (isNaN(ciNum) || !(ciNum > 1000000 && ciNum < 35000000)) {
-				setError(document.getElementById('ciError'), 'La cédula debe ser > 1.000.000 y < 35.000.000');
-				ok = false;
-			}
-
-			if (!validarTelefono(document.getElementById('telefono'))) ok = false;
-			if (!validarCorreo(document.getElementById('correo'))) ok = false;
-
-			const estudia = document.getElementById('estudiaUniversidad').value;
-			if (estudia === 'si') {
-				const uni = document.getElementById('universidadNombre').value.trim();
-				const car = document.getElementById('universidadCarrera').value.trim();
-				if (!uni) { setError(document.getElementById('universidadNombre').nextElementSibling, 'La universidad es obligatoria'); ok = false; }
-				if (!car) { setError(document.getElementById('universidadCarrera').nextElementSibling, 'La carrera es obligatoria'); ok = false; }
-			}
-
-			const errores = ['nombresError','apellidosError','ciError','telefonoError','correoError'];
-			errores.forEach(id => { if (document.getElementById(id) && document.getElementById(id).style.display !== 'none') ok = false; });
-
-			if (!ok) {
-				// enfocar primer campo con error
-				for (const id of errores) {
-					const el = document.getElementById(id);
-					if (el && el.style.display !== 'none') {
-						const field = document.getElementById(id.replace('Error',''));
-						if (field) field.focus();
-						break;
-					}
-				}
-				return;
-			}
 
 			// Preparar payload
 			const payload = {
@@ -522,10 +738,11 @@
 				carrera: document.getElementById('universidadCarrera').value || '',
 				telefono: document.getElementById('telefono').value.trim(),
 				correo: document.getElementById('correo').value.trim(),
+				metodo_pago: document.getElementById('metodoPago').value,
 				token: APPS_SCRIPT_TOKEN
 			};
 
-			const btn = this.querySelector('button[type=submit]');
+			const btn = document.getElementById('btnSiguiente');
 			btn.disabled = true;
 			btn.textContent = 'Enviando...';
 
@@ -540,14 +757,38 @@
 				if (isNivelMatPages) {
 					// Google Apps Script: mostrar éxito sin esperar respuesta
 					if (window.setActivePane) window.setActivePane('success');
-					this.reset();
+					// Resetear formulario
+					currentStep = 1;
+					document.getElementById('nombres').value = '';
+					document.getElementById('apellidos').value = '';
+					document.getElementById('ciNumero').value = '';
+					document.getElementById('esBachiller').value = '';
+					document.getElementById('colegioProcedencia').value = '';
+					document.getElementById('estudiaUniversidad').value = '';
+					document.getElementById('universidadNombre').value = '';
+					document.getElementById('universidadCarrera').value = '';
+					document.getElementById('telefono').value = '';
+					document.getElementById('correo').value = '';
+					document.getElementById('metodoPago').value = 'transferencia';
 					document.querySelectorAll('small').forEach(s => s.style.display = 'none');
 				} else {
 					// Servidor local: leer respuesta JSON
 					const data = await resp.json();
 					if (resp.ok) {
 						if (window.setActivePane) window.setActivePane('success');
-						this.reset();
+						// Resetear formulario
+						currentStep = 1;
+						document.getElementById('nombres').value = '';
+						document.getElementById('apellidos').value = '';
+						document.getElementById('ciNumero').value = '';
+						document.getElementById('esBachiller').value = '';
+						document.getElementById('colegioProcedencia').value = '';
+						document.getElementById('estudiaUniversidad').value = '';
+						document.getElementById('universidadNombre').value = '';
+						document.getElementById('universidadCarrera').value = '';
+						document.getElementById('telefono').value = '';
+						document.getElementById('correo').value = '';
+						document.getElementById('metodoPago').value = 'transferencia';
 						document.querySelectorAll('small').forEach(s => s.style.display = 'none');
 					} else {
 						alert('Error al enviar: ' + (data.error || resp.statusText));
@@ -557,7 +798,28 @@
 				alert('Error: ' + err.message);
 			} finally {
 				btn.disabled = false;
-				btn.textContent = 'Enviar Preinscripción';
+				btn.textContent = 'Enviar';
+				updateStepUI();
+			}
+		}
+
+		// Inicializar el formulario
+		window.addEventListener('DOMContentLoaded', function() {
+			// Solo inicializar si el formulario está disponible
+			const btnSiguiente = document.getElementById('btnSiguiente');
+			if (btnSiguiente) {
+				updateStepUI();
+				
+				// Ajustar altura inicial
+				setTimeout(() => {
+					const multiPane = document.querySelector('.multi-pane');
+					if (multiPane) {
+						const form = multiPane.querySelector('.pane-form');
+						if (form) {
+							multiPane.style.minHeight = form.scrollHeight + 'px';
+						}
+					}
+				}, 100);
 			}
 		});
 	</script>
