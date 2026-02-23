@@ -142,7 +142,7 @@
 			<section class="pane pane-info">
 				<h2 style="margin-top:0;color:#222;">¿Qué es?</h2>
 				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
-					<strong>NivelMat</strong> es un curso organizado por la Comisión de Extensión de la Facultad de Ciencias, UCV, junto a la Escuela de Matemática. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios.
+					<strong>NivelMat</strong> es un curso avalado por la Comisión de Extensión de la Facultad de Ciencias, UCV, junto a la Escuela de Matemática. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios.
 				</p>
 				<p style="color:#666;text-align:left;margin-bottom:22px;">Por favor lea con atención antes de continuar.</p>
 				<div style="text-align:center;">
@@ -162,24 +162,24 @@
 					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos Personales</h3>
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Nombres <span style="color:#d32f2f;">*</span></label>
-						<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 						<small id="nombresError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 					</div>
 
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Apellidos <span style="color:#d32f2f;">*</span></label>
-						<input id="apellidos" type="text" placeholder="Tus apellidos" required oninput="validarTextoNombre(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<input id="apellidos" type="text" placeholder="Tus apellidos" required oninput="validarTextoNombre(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 						<small id="apellidosError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 					</div>
 
 					<div style="margin-bottom:24px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Cédula <span style="color:#d32f2f;">*</span></label>
 						<div style="display:flex;gap:8px;align-items:center;">
-							<select id="ciPrefijo" onchange="actualizarColorSelect(this)" required style="width:96px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<select id="ciPrefijo" onchange="actualizarColorSelect(this)" required style="width:96px;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
 								<option value="V">V</option>
 								<option value="E">E</option>
 							</select>
-							<input id="ciNumero" type="text" placeholder="Formato: 12345678" required oninput="validarCIInput(this)" style="flex:1;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+							<input id="ciNumero" type="text" placeholder="Formato: 12345678" required oninput="validarCIInput(this)" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 						</div>
 						<small id="ciError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 					</div>
@@ -190,7 +190,7 @@
 					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Estudio</h3>
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Eres bachiller? <span style="color:#d32f2f;">*</span></label>
-						<select id="esBachiller" onchange="mostrarCamposBachiller()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+					<select id="esBachiller" onchange="mostrarCamposBachiller()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
 							<option value="">Selecciona una opción</option>
 							<option value="si">Sí</option>
 							<option value="no">No</option>
@@ -200,13 +200,13 @@
 					<div id="camposBachiller" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
 						<div style="margin-bottom:0;">
 							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Colegio de procedencia <span style="color:#888;">(opcional)</span></label>
-							<input id="colegioProcedencia" type="text" placeholder="Nombre del colegio" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+							<input id="colegioProcedencia" type="text" placeholder="Nombre del colegio" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
 						</div>
 					</div>
 
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Estudias en una universidad? <span style="color:#d32f2f;">*</span></label>
-						<select id="estudiaUniversidad" onchange="mostrarCamposUniversidad()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+					<select id="estudiaUniversidad" onchange="mostrarCamposUniversidad()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
 							<option value="">Selecciona una opción</option>
 							<option value="si">Sí</option>
 							<option value="no">No</option>
@@ -216,11 +216,11 @@
 					<div id="camposUniversidad" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
 						<div style="margin-bottom:16px;">
 							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Universidad <span style="color:#d32f2f;">*</span></label>
-							<input id="universidadNombre" type="text" placeholder="Nombre de la universidad" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+							<input id="universidadNombre" type="text" placeholder="Nombre de la universidad" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
 						</div>
 						<div style="margin-bottom:0;">
 							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Carrera <span style="color:#d32f2f;">*</span></label>
-							<input id="universidadCarrera" type="text" placeholder="Nombre de la carrera" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+							<input id="universidadCarrera" type="text" placeholder="Nombre de la carrera" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
 						</div>
 					</div>
 				</div>
@@ -230,13 +230,13 @@
 					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Contacto</h3>
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Número de celular <span style="color:#d32f2f;">*</span></label>
-						<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 						<small id="telefonoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 					</div>
 
 					<div style="margin-bottom:24px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Gmail <span style="color:#d32f2f;">*</span></label>
-						<input id="correo" type="email" placeholder="tu.email@gmail.com" required onblur="validarCorreo(this)" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<input id="correo" type="email" placeholder="tu.email@gmail.com" required onblur="validarCorreo(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
 						<small id="correoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
 					</div>
 				</div>
@@ -246,9 +246,9 @@
 					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Pago</h3>
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Método de pago <span style="color:#d32f2f;">*</span></label>
-						<select id="metodoPago" onchange="actualizarMensajePago()" required style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+					<select id="metodoPago" onchange="actualizarMensajePago()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
 							<option value="transferencia">Transferencia en bolívares</option>
-							<option value="dolares">Dólares en efectivo</option>
+							<option value="dolares">Divisas en efectivo</option>
 						</select>
 					</div>
 					<div id="mensajePago" style="padding:16px;background:#f0f8ff;border-radius:8px;border:1px solid #d0e8ff;color:#333;line-height:1.6;">
@@ -727,19 +727,18 @@
 
 			// Preparar payload
 			const payload = {
-				prefijo_ci: document.getElementById('ciPrefijo').value,
-				ci: document.getElementById('ciNumero').value.replace(/\D/g,''),
-				nombres: document.getElementById('nombres').value.trim(),
-				apellidos: document.getElementById('apellidos').value.trim(),
-				es_bachiller: document.getElementById('esBachiller').value,
-				colegio: document.getElementById('colegioProcedencia').value || '',
-				estudia_universidad: document.getElementById('estudiaUniversidad').value,
-				universidad: document.getElementById('universidadNombre').value || '',
-				carrera: document.getElementById('universidadCarrera').value || '',
-				telefono: document.getElementById('telefono').value.trim(),
-				correo: document.getElementById('correo').value.trim(),
-				metodo_pago: document.getElementById('metodoPago').value,
-				token: APPS_SCRIPT_TOKEN
+					nombres: document.getElementById('nombres').value.trim(),
+					apellidos: document.getElementById('apellidos').value.trim(),
+					prefijo_ci: document.getElementById('ciPrefijo').value,
+					ci: document.getElementById('ciNumero').value.replace(/\D/g,''),
+					es_bachiller: document.getElementById('esBachiller').value,
+					colegio: document.getElementById('colegioProcedencia').value || '',
+					estudia_universidad: document.getElementById('estudiaUniversidad').value,
+					universidad: document.getElementById('universidadNombre').value || '',
+					carrera: document.getElementById('universidadCarrera').value || '',
+					metodo_pago: document.getElementById('metodoPago').value,
+					telefono: document.getElementById('telefono').value.trim(),
+					correo: document.getElementById('correo').value.trim(),
 			};
 
 			const btn = document.getElementById('btnSiguiente');
