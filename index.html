@@ -234,8 +234,6 @@
 			<button type="submit" class="boton-esferico enviar-btn" style="width:100%;padding:12px;font-size:1.1em;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:background 0.2s;">
 				Enviar Preinscripción
 			</button>
-		</form>
-			</form>
 		</section>
 
 		<section class="pane pane-success" aria-hidden="true">
@@ -257,6 +255,9 @@
 		function mostrarCamposBachiller() {
 			const esBachiller = document.getElementById('esBachiller');
 			const camposBachiller = document.getElementById('camposBachiller');
+				const multiPane = document.querySelector('.multi-pane');
+				
+			const multiPane = document.querySelector('.multi-pane');
 			
 			if (esBachiller.value === 'si') {
 				camposBachiller.style.display = 'block';
@@ -265,13 +266,13 @@
 			}
 			
 			actualizarColorSelect(esBachiller);
-		}
-
-		function mostrarCamposUniversidad() {
-			const estudiaUniversidad = document.getElementById('estudiaUniversidad');
-			const camposUniversidad = document.getElementById('camposUniversidad');
-			const uniNombre = document.getElementById('universidadNombre');
-			const uniCarrera = document.getElementById('universidadCarrera');
+			// Recalcular altura del contenedor después de mostrar/ocultar campos
+			if (multiPane) {
+				setTimeout(() => {
+					const activePane = multiPane.querySelector('.pane[style*="opacity: 1"]') || multiPane.querySelector('.pane-form');
+					if (activePane) multiPane.style.height = activePane.offsetHeight + 'px';
+				}, 50);
+			const multiPane = document.querySelector('.multi-pane');
 			
 			if (estudiaUniversidad.value === 'si') {
 				camposUniversidad.style.display = 'block';
@@ -284,15 +285,35 @@
 			}
 			
 			actualizarColorSelect(estudiaUniversidad);
-		}
-
-		function actualizarColorSelect(selectElement) {
-			if (selectElement.value === '') {
-				selectElement.classList.remove('seleccionado');
+			// Recalcular altura del contenedor después de mostrar/ocultar campos
+			if (multiPane) {
+				setTimeout(() => {
+					const activePane = multiPane.querySelector('.pane[style*="opacity: 1"]') || multiPane.querySelector('.pane-form');
+					if (activePane) multiPane.style.height = activePane.offsetHeight + 'px';
+				}, 50);
+			}
+					camposUniversidad.style.display = 'block';
+					uniNombre.setAttribute('required','');
+					uniCarrera.setAttribute('required','');
+				} else {
+					camposUniversidad.style.display = 'none';
+					uniNombre.removeAttribute('required');
+					uniCarrera.removeAttribute('required');
+				}
+				
+				actualizarColorSelect(estudiaUniversidad);
+				// Recalcular altura del contenedor
+				if (multiPane) {
+					const activePane = multiPane.querySelector('.pane[style*="opacity: 1"]');
+					if (activePane) setTimeout(() => { multiPane.style.height = activePane.offsetHeight + 'px'; }, 100);
+				}
 			} else {
 				selectElement.classList.add('seleccionado');
 			}
-		}
+		}// Agregar pequeño delay para que el DOM se actualice completamente
+				setTimeout(() => {
+					multiPane.style.height = el.offsetHeight + 'px';
+				}, 100)
 
 			// Inicializar colores de selects al cargar
 		document.addEventListener('DOMContentLoaded', function() {
@@ -310,7 +331,10 @@
 
 			function updateContainerHeight(el){
 				if (!el) return;
-				multiPane.style.height = el.offsetHeight + 'px';
+				// Agregar pequeño delay para que el DOM se actualice
+				setTimeout(() => {
+					multiPane.style.height = el.offsetHeight + 'px';
+				}, 100);
 			}
 
 			function setActivePane(name){
@@ -504,21 +528,32 @@
 				}
 				return;
 			}
-
-			// Preparar payload
-			const payload = {
-				prefijo_ci: document.getElementById('ciPrefijo').value,
-				ci: document.getElementById('ciNumero').value.replace(/\D/g,''),
-				nombres: document.getElementById('nombres').value.trim(),
-				apellidos: document.getElementById('apellidos').value.trim(),
-				es_bachiller: document.getElementById('esBachiller').value,
-				colegio: document.getElementById('colegioProcedencia').value || '',
-				estudia_universidad: document.getElementById('estudiaUniversidad').value,
-				universidad: document.getElementById('universidadNombre').value || '',
-				carrera: document.getElementById('universidadCarrera').value || '',
-				telefono: document.getElementById('telefono').value.trim(),
-				correo: document.getElementById('correo').value.trim(),
-				token: APPS_SCRIPT_TOKEN
+Usar no-cors para Google Apps Script que no devuelve headers CORS correctamente
+					mode: isNivelMatPages ? 'no-cors' : 'cors',
+					headers: { 'Content-Type': 'text/plain', 'Accept': 'application/json' },
+					body: JSON.stringify(payload)
+				});
+				
+				// Con mode no-cors, no podemos leer la respuesta json, así que asumimos éxito
+				if (isNivelMatPages) {
+					// Google Apps Script: mostrar éxito sin esperar respuesta
+					if (window.setActivePane) window.setActivePane('success');
+					this.reset();
+					document.querySelectorAll('small').forEach(s => s.style.display = 'none');
+				} else {
+					// Servidor local: leer respuesta JSON
+					const data = await resp.json();
+					if (resp.ok) {
+						if (window.setActivePane) window.setActivePane('success');
+						this.reset();
+						document.querySelectorAll('small').forEach(s => s.style.display = 'none');
+					} else {
+						alert('Error al enviar: ' + (data.error || resp.statusText));
+					}
+				}
+			} catch (err) {
+				// Con no-cors, posibles errores de red aún se capturan
+				alert('Err
 			};
 
 			const btn = this.querySelector('button[type=submit]');
