@@ -6,10 +6,10 @@
 	<title>NivelMat - Curso de Nivelación Matemática</title>
 		<style>
 			:root {
-				--color-primario: #000099;
-				--color-texto: #fff;
-				--color-boton: #fff;
-				--color-boton-hover: #bb9333;
+				--primary-color: #009;
+				--text-color: #fff;
+				--botton-color: #fff;
+				--secundary-color: #bb9333;
 			}
 			body {
 				margin: 0;
@@ -32,8 +32,8 @@
 				}
 			}
 			.superior {
-				background: var(--color-primario);
-				color: var(--color-texto);
+				background: var(--primary-color);
+				color: var(--text-color);
 				padding: 32px 0 24px 0;
 				text-align: center;
 				position: relative;
@@ -56,8 +56,8 @@
 				margin-top: 10px;
 			}
 			.boton-esferico {
-				background: var(--color-boton);
-				color: var(--color-primario);
+				background: var(--botton-color);
+				color: var(--primary-color);
 				border: none;
 				border-radius: 999px;
 				padding: 10px 28px;
@@ -68,28 +68,8 @@
 				transition: background 0.2s, color 0.2s;
 			}
 			.boton-esferico:hover {
-				background: var(--color-boton-hover);
+				background: var(--secundary-color);
 				color: #fff;
-			}
-
-			/* Botón Preinscribirse: estilo similar a los botones superiores, fondo azul #009 */
-			.boton-preinscribirse {
-				background: #009;
-				color: #fff;
-				border: none;
-				border-radius: 999px;
-				padding: 10px 28px;
-				font-size: 1em;
-				font-weight: 700;
-				cursor: pointer;
-				box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-				transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.12s ease;
-			}
-			.boton-preinscribirse:hover {
-				background: var(--color-boton-hover); /* #bb9333 */
-				color: #fff;
-				transform: translateY(-3px);
-				box-shadow: 0 8px 18px rgba(0,0,0,0.16);
 			}
 			@media (max-width: 600px) {
 				.superior { padding: 18px 0 12px 0; }
@@ -97,57 +77,19 @@
 				.logo-nivelmat { width: 60px; }
 				.boton-esferico { padding: 8px 16px; font-size: 0.95em; }
 			}
-			.footer-nivelmat {
-				width: 100%;
-				text-align: center;
-				color: #888;
-				font-size: 1em;
-				padding: 32px 0 18px 0;
-				background: none;
-				margin-top: 48px;
-				letter-spacing: 0.5px;
-			}
-
-			/* Tarjeta esférica para el desplegable */
-			.desplegable-card {
-				background: #fff;
-				border-radius: 18px;
-				padding: 16px 20px;
-				box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-				max-width: 720px;
-				margin: 16px auto 8px auto;
-			}
-
-			.desplegable {
-				margin-top: 0;
-				text-align: left;
-			}
-			.desplegable summary {
-				cursor: pointer;
-				font-weight: 700;
-				color: var(--color-primario);
-				padding: 8px 0;
-				user-select: none;
-				transition: color 0.18s ease;
-			}
-			.desplegable summary::-webkit-details-marker { display: none; }
-			.desplegable summary:before { content: ""; color: var(--color-primario); }
-			.desplegable summary:hover {
-				color: var(--color-boton-hover);
-			}
-			.desplegable-contenido {
-				padding: 8px 0 0 8px;
-				overflow: hidden;
-				animation: expandir 0.28s ease-out forwards;
-			}
-			@keyframes expandir {
-				from { opacity: 0; transform: translateY(-6px);} 
-				to { opacity: 1; transform: translateY(0); }
-			}
-			.lista-info { list-style: none; padding: 0; margin: 10px 0; }
-			.lista-info li { margin: 8px 0; padding-left: 0; }
-			.sublista { list-style: none; padding-left: 14px; margin: 8px 0; }
-			.subtitulo-nivelmat { font-size: 1.05em; font-weight: 700; color: var(--color-primario); text-align: center; margin-bottom: 8px; }
+		</style>
+		<style>
+			/* Multi-pane (condiciones -> formulario) */
+			.multi-pane { max-width: 800px; margin: 40px auto 0 auto; position: relative; overflow: hidden; border-radius: 18px; }
+			.multi-pane .panes { position: relative; }
+			.pane { background: #fff; padding: 36px 32px; box-shadow: 0 6px 32px rgba(0,0,0,0.13); border-radius: 18px; transition: opacity 0.48s ease; position: absolute; left: 0; right: 0; top: 0; }
+			.pane-info { z-index: 2; visibility: visible; }
+			.pane-form { visibility: hidden; opacity: 0; }
+			.pane-success { visibility: hidden; opacity: 0; }
+			.interesado-btn { background: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight:700; cursor:pointer; }
+			.interesado-btn:hover { background: var(--secundary-color); }
+			/* Asegurar buena experiencia en móvil */
+			@media (max-width:600px){ .pane { padding: 20px; } .pane + .pane{ margin-top:14px;} }
 		</style>
 				<style>
 				.info-rect {
@@ -161,74 +103,734 @@
 					position: relative;
 					z-index: 2;
 				}
+				select {
+					color: #999;
+				}
+				select option {
+					color: #222;
+				}
+				select.seleccionado {
+					color: #222;
+				}
+				.enviar-btn {
+					background: var(--primary-color);
+					color: #fff;
+					border: none;
+				}
+				.enviar-btn:hover {
+					background: var(--secundary-color);
+					color: #fff;
+				}
 				</style>
 </head>
 <body>
-	<div class="superior">
-		<div style="display: flex; justify-content: center; gap: 20px; align-items: center; margin: 12px 0 16px 0; flex-wrap: wrap;">
-			<img src="ucv.png" alt="Logo UCV" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="fc.png" alt="Logo Facultad de Ciencias" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="cefc.png" alt="Logo Comisión de Extensión" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="em.png" alt="Logo Escuela de Matemática" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-		</div>
-		<img src="nivelmat.png" alt="Logo NivelMat" class="logo-nivelmat fadein delay1" />
-		<div class="titulo-nivelmat fadein delay2">NivelMat - Curso de Nivelación Matemática</div>
-		<div class="botones-nav fadein delay3">
-			<a href="https://nivelmat.github.io/preinscripcion/" style="text-decoration:none;"><button class="boton-esferico">Preinscripción</button></a>
-			<a href="https://nivelmat.github.io/contactos/" style="text-decoration:none;"><button class="boton-esferico">Contactos</button></a>
-		</div>
-	</div>
-	<div class="info-rect fadein delay2">
-		<!-- Aquí va la información principal -->
-		<h2 style="margin-top:0;">Bienvenido a NivelMat</h2>
-		<p><strong>NivelMat</strong> es un curso avalado por la <strong>Comisión de Extensión</strong> de la <strong>Facultad de Ciencias, UCV</strong>, junto a la <strong>Escuela de Matemática</strong>. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios. En esta página encontrarás toda la información sobre inscripciones, fechas, contenidos y contacto.</p>
-		<div class="desplegable-card">
-			<div class="desplegable">
-				<details>
-					<summary>Más información</summary>
-					<div class="desplegable-contenido">
-						<div class="subtitulo-nivelmat">NivelMat - Curso de Nivelación Matemática</div>
-						<ul class="lista-info">
-							<li>
-								<strong>Avalado por:</strong>
-								<ul class="sublista">
-									<li>Comisión de Extensión de la Facultad de Ciencias - Universidad Central de Venezuela</li>
-									<li>Escuela de Matemática de la Facultad de Ciencias - Universidad Central de Venezuela</li>
-								</ul>
-							</li>
-							<li>Para bachilleres y cursantes del último año de bachillerato</li>
-							<li><strong>Duración:</strong> 8 semanas</li>
-						</ul>
-						<details style="margin-top: 12px;">
-							<summary style="font-weight: 600; color: var(--color-primario); cursor: pointer; padding: 8px 0;">Horario</summary>
-							<div class="desplegable-contenido" style="padding: 8px 0 0 12px;">
-								<p style="margin: 6px 0;">Lunes, Miércoles y Viernes de 3:00 PM a 5:15 PM</p>
-							</div>
-						</details>
-						<details style="margin-top: 10px;">
-							<summary style="font-weight: 600; color: var(--color-primario); cursor: pointer; padding: 8px 0;">Contenido</summary>
-							<div class="desplegable-contenido" style="padding: 8px 0 0 12px;">
-								<ul class="lista-info">
-									<li>Aritmética</li>
-									<li>Álgebra</li>
-									<li>Funciones</li>
-									<li>Geometría</li>
-								</ul>
-								<p style="margin-top: 10px; color: #666; font-style: italic;">Al final del curso se visualizará una integración de los contenidos.</p>
-							</div>
-						</details>
-					</div>
-				</details>
+		<div class="superior">		<div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap;">
+			<img src="ucv.png" alt="UCV" style="height:50px;width:auto;">
+			<img src="cefc.png" alt="CEFC" style="height:50px;width:auto;">
+			<img src="fc.png" alt="FC" style="height:50px;width:auto;">
+			<img src="em.png" alt="EM" style="height:50px;width:auto;">
+		</div>			<img src="nivelmat.png" alt="Logo NivelMat" class="logo-nivelmat fadein delay1" />
+			<div class="titulo-nivelmat fadein delay2">NivelMat - Curso de Nivelación Matemática</div>
+			<div class="botones-nav fadein delay3">
+				<a href="https://nivelmat.github.io/home/" style="text-decoration:none;"><button class="boton-esferico">Inicio</button></a>
+				<a href="https://nivelmat.github.io/contactos/" style="text-decoration:none;"><button class="boton-esferico">Contactos</button></a>
 			</div>
 		</div>
-		<p style="font-size:1.3em;margin-top:24px;font-weight:bold;color:#000099;">
-			¡Preinscribete ya! ¡Hay cupos limitados!
-		</p>
-		<a href="https://nivelmat.github.io/preinscripcion/" style="text-decoration:none;display:inline-block;margin-top:12px;"><button class="boton-preinscribirse">Preinscribirse</button></a>
-		</div>
-		<footer class="footer-nivelmat fadein delay3">
-			© 2025 NivelMat – Escuela de Matemática, UCV
-		</footer>
-	</body>
-	</html>
+</div>
+	<div class="multi-pane fadein delay2 info-rect">
+		<div class="panes">
+			<section class="pane pane-info">
+				<h2 style="margin-top:0;color:#222;">¿Qué es?</h2>
+				<p style="color:#444;line-height:1.45;margin-bottom:12px;text-align:left;">
+					<strong>NivelMat</strong> es un curso avalado por la Comisión de Extensión de la Facultad de Ciencias, UCV, junto a la Escuela de Matemática. Su objetivo es fortalecer tus conocimientos matemáticos y prepararte para iniciar tus estudios universitarios.
+				</p>
+				<p style="color:#666;text-align:left;margin-bottom:22px;">Por favor lea con atención antes de continuar.</p>
+				<div style="text-align:center;">
+					<button id="interesadoBtn" class="interesado-btn">¿Está usted interesado?</button>
+				</div>
+			</section>
 
+			<section class="pane pane-form">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+					<button id="btnAtras" onclick="navegarFormulario(-1)" style="background:none;border:none;font-size:1.5em;cursor:pointer;color:#009;">←</button>
+					<h2 style="margin:0;color:#222;flex:1;text-align:center;">Formulario de Preinscripción</h2>
+					<span id="numPagina" style="font-weight:600;color:#009;font-size:1.1em;">1/4</span>
+				</div>
+
+				<!-- Sección 1: Datos Personales -->
+				<div class="form-section" id="seccion1">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos Personales</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Nombres <span style="color:#d32f2f;">*</span></label>
+						<input id="nombres" type="text" placeholder="Tu nombre" required oninput="validarTextoNombre(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="nombresError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Apellidos <span style="color:#d32f2f;">*</span></label>
+						<input id="apellidos" type="text" placeholder="Tus apellidos" required oninput="validarTextoNombre(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="apellidosError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:24px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Cédula <span style="color:#d32f2f;">*</span></label>
+						<div style="display:flex;gap:8px;align-items:center;">
+							<select id="ciPrefijo" onchange="actualizarColorSelect(this)" required style="width:96px;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+								<option value="V">V</option>
+								<option value="E">E</option>
+							</select>
+							<input id="ciNumero" type="text" placeholder="Formato: 12345678" required oninput="validarCIInput(this)" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						</div>
+						<small id="ciError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+				</div>
+
+				<!-- Sección 2: Datos de Estudio -->
+				<div class="form-section" id="seccion2" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Estudio</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Eres bachiller? <span style="color:#d32f2f;">*</span></label>
+					<select id="esBachiller" onchange="mostrarCamposBachiller()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="">Selecciona una opción</option>
+							<option value="si">Sí</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+
+					<div id="camposBachiller" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
+						<div style="margin-bottom:0;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Colegio de procedencia <span style="color:#888;">(opcional)</span></label>
+							<input id="colegioProcedencia" type="text" placeholder="Nombre del colegio" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
+						</div>
+					</div>
+
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">¿Estudias en una universidad? <span style="color:#d32f2f;">*</span></label>
+					<select id="estudiaUniversidad" onchange="mostrarCamposUniversidad()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="">Selecciona una opción</option>
+							<option value="si">Sí</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+
+					<div id="camposUniversidad" style="display:none;margin-bottom:16px;padding:16px;background:#f9f9f9;border-radius:8px;border:1px solid #e0e0e0;">
+						<div style="margin-bottom:16px;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Universidad <span style="color:#d32f2f;">*</span></label>
+							<input id="universidadNombre" type="text" placeholder="Nombre de la universidad" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
+						</div>
+						<div style="margin-bottom:0;">
+							<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Carrera <span style="color:#d32f2f;">*</span></label>
+							<input id="universidadCarrera" type="text" placeholder="Nombre de la carrera" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;min-height:45px;">
+						</div>
+					</div>
+				</div>
+
+				<!-- Sección 3: Datos de Contacto -->
+				<div class="form-section" id="seccion3" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Contacto</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Número de celular <span style="color:#d32f2f;">*</span></label>
+						<input id="telefono" type="tel" placeholder="+584... o 04..." required oninput="filtrarTelefono(this)" onblur="validarTelefono(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="telefonoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+
+					<div style="margin-bottom:24px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Gmail <span style="color:#d32f2f;">*</span></label>
+						<input id="correo" type="email" placeholder="tu.email@gmail.com" required onblur="validarCorreo(this)" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;">
+						<small id="correoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+				</div>
+
+				<!-- Sección 4: Datos de Pago -->
+				<div class="form-section" id="seccion4" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Pago</h3>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Método de pago <span style="color:#d32f2f;">*</span></label>
+					<select id="metodoPago" onchange="actualizarMensajePago()" required style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;background:#fff;">
+							<option value="transferencia">Transferencia en bolívares</option>
+							<option value="dolares">Divisas en efectivo</option>
+						</select>
+					</div>
+					<div id="mensajePago" style="padding:16px;background:#f0f8ff;border-radius:8px;border:1px solid #d0e8ff;color:#333;line-height:1.6;">
+						Transferencia en bolívares el día de la inscripción a tasa BCV del monto de 135$.
+					</div>
+				</div>
+
+				<form id="formMultiseccion" style="display:none;">
+					<input type="hidden" name="datos">
+				</form>
+
+				<div style="display:flex;gap:12px;margin-top:24px;">
+					<button type="button" id="btnSiguiente" onclick="navegarFormulario(1)" style="flex:1;background:var(--primary-color);color:#fff;border:none;padding:12px;border-radius:6px;font-weight:600;cursor:pointer;font-size:1em;transition:background 0.2s;">
+						Siguiente
+					</button>
+				</div>
+			</section>
+
+		<section class="pane pane-success">
+			<div style="text-align:center;">
+				<div style="font-size:3em;margin-bottom:16px;color:var(--primary-color);">✓</div>
+				<h2 style="margin-top:0;color:#222;">Preinscripción Enviada</h2>
+				<p style="color:#666;line-height:1.6;margin-bottom:24px;">
+					¡Gracias por completar tu preinscripción! Nos pondremos en contacto contigo pronto a través de tu número de celular o correo electrónico.
+				</p>
+				<button id="finalizarBtn" class="interesado-btn" style="background:var(--primary-color);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-weight:700;cursor:pointer;font-size:1em;">
+					Volver al Inicio
+				</button>
+			</div>
+		</section>
+		</div>
+	</div>
+
+	<script>
+		function mostrarCamposBachiller() {
+			const esBachiller = document.getElementById('esBachiller');
+			const camposBachiller = document.getElementById('camposBachiller');
+			const multiPane = document.querySelector('.multi-pane');
+			
+			if (esBachiller.value === 'si') {
+				camposBachiller.style.display = 'block';
+			} else {
+				camposBachiller.style.display = 'none';
+			}
+			
+			actualizarColorSelect(esBachiller);
+			// Recalcular altura del contenedor después de mostrar/ocultar campos
+			if (multiPane) {
+				setTimeout(() => {
+					const activePane = multiPane.querySelector('.pane[style*="opacity: 1"]') || multiPane.querySelector('.pane-form');
+					if (activePane) multiPane.style.height = activePane.offsetHeight + 'px';
+				}, 50);
+			}
+		}
+
+		function mostrarCamposUniversidad() {
+			const estudiaUniversidad = document.getElementById('estudiaUniversidad');
+			const camposUniversidad = document.getElementById('camposUniversidad');
+			const uniNombre = document.getElementById('universidadNombre');
+			const uniCarrera = document.getElementById('universidadCarrera');
+			const multiPane = document.querySelector('.multi-pane');
+			
+			if (estudiaUniversidad.value === 'si') {
+				camposUniversidad.style.display = 'block';
+				uniNombre.setAttribute('required','');
+				uniCarrera.setAttribute('required','');
+			} else {
+				camposUniversidad.style.display = 'none';
+				uniNombre.removeAttribute('required');
+				uniCarrera.removeAttribute('required');
+			}
+			
+			actualizarColorSelect(estudiaUniversidad);
+			// Recalcular altura del contenedor después de mostrar/ocultar campos
+			if (multiPane) {
+				setTimeout(() => {
+					const activePane = multiPane.querySelector('.pane[style*="opacity: 1"]') || multiPane.querySelector('.pane-form');
+					if (activePane) multiPane.style.height = activePane.offsetHeight + 'px';
+				}, 50);
+			}
+		}
+
+		function actualizarColorSelect(selectElement) {
+			if (selectElement.value === '') {
+				selectElement.classList.remove('seleccionado');
+			} else {
+				selectElement.classList.add('seleccionado');
+			}
+		}
+
+			// Inicializar colores de selects al cargar
+		document.addEventListener('DOMContentLoaded', function() {
+			const selects = [document.getElementById('esBachiller'), document.getElementById('estudiaUniversidad'), document.getElementById('ciPrefijo')];
+			selects.forEach(s => { if (s) actualizarColorSelect(s); });
+
+			const multiPane = document.querySelector('.multi-pane');
+			if (!multiPane) return;
+
+			const panes = {
+				info: multiPane.querySelector('.pane-info'),
+				form: multiPane.querySelector('.pane-form'),
+				success: multiPane.querySelector('.pane-success')
+			};
+
+			function updateContainerHeight(el){
+				if (!el) return;
+				// Agregar pequeño delay para que el DOM se actualice
+				setTimeout(() => {
+					multiPane.style.height = el.offsetHeight + 'px';
+				}, 100);
+			}
+
+			function setActivePane(name){
+				const order = ['info','form','success'];
+				const activeIndex = order.indexOf(name);
+				order.forEach((nm, idx) => {
+					const el = panes[nm];
+					if (!el) return;
+					if (idx === activeIndex) {
+						el.style.visibility = 'visible';
+						el.style.opacity = '1';
+						el.style.pointerEvents = 'auto';
+					} else {
+						el.style.visibility = 'hidden';
+						el.style.opacity = '0';
+						el.style.pointerEvents = 'none';
+					}
+				});
+				updateContainerHeight(panes[name]);
+				
+				// Mostrar/ocultar controles de navegación del formulario
+				const btnAtras = document.getElementById('btnAtras');
+				const numPagina = document.getElementById('numPagina');
+				const btnSiguiente = document.getElementById('btnSiguiente');
+				
+				if (name === 'form') {
+					if (btnAtras) btnAtras.style.display = 'block';
+					if (numPagina) numPagina.style.display = 'block';
+					if (btnSiguiente) btnSiguiente.style.display = 'block';
+					currentStep = 1;
+					updateStepUI();
+				} else {
+					if (btnAtras) btnAtras.style.display = 'none';
+					if (numPagina) numPagina.style.display = 'none';
+					if (btnSiguiente) btnSiguiente.style.display = 'none';
+				}
+			}
+
+			// aplicar posicionamiento y altura inicial
+			const allPanes = multiPane.querySelectorAll('.pane');
+			allPanes.forEach(p => { p.style.position='absolute'; p.style.left='0'; p.style.right='0'; p.style.top='0'; });
+			setTimeout(()=> setActivePane('info'), 30);
+
+			// Exponer para otras partes del script
+			window.setActivePane = setActivePane;
+
+			// Botón "¿Está usted interesado?": mostrar formulario con animación
+			const interesadoBtn = document.getElementById('interesadoBtn');
+			if (interesadoBtn) {
+				interesadoBtn.addEventListener('click', function(ev){
+					ev.preventDefault();
+					setActivePane('form');
+					setTimeout(()=>{
+						const firstField = multiPane.querySelector('.pane-form form input, .pane-form form select, .pane-form form textarea, .pane-form form button');
+						if (firstField) firstField.focus();
+					}, 520);
+				});
+			}
+
+			// Finalizar desde pane de éxito: redirigir a nivelmat.github.io/home/
+			const finalizarBtn = document.getElementById('finalizarBtn');
+			if (finalizarBtn) {
+				finalizarBtn.addEventListener('click', function(){
+					const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
+					if (isNivelMatPages) {
+						window.location.href = 'https://nivelmat.github.io/home/';
+					} else {
+						setActivePane('info');
+					}
+				});
+			}
+		});
+
+		// --- Validaciones en tiempo real y antes de enviar ---
+
+		function setError(elError, mensaje) {
+			if (!elError) return;
+			elError.textContent = mensaje;
+			elError.style.display = 'block';
+		}
+
+		function clearError(elError) {
+			if (!elError) return;
+			elError.textContent = '';
+			elError.style.display = 'none';
+		}
+
+		// Nombres / Apellidos: permitir letras (incluyendo acentos), espacios y guion
+		function validarTextoNombre(input) {
+			const invalid = /[^A-Za-zÁÉÍÓÚáéíóúÑñ\- ]/g;
+			const errEl = document.getElementById(input.id + 'Error');
+			if (invalid.test(input.value)) {
+				input.value = input.value.replace(invalid, '');
+				setError(errEl, 'Caracteres inválidos eliminados. Sólo letras, espacios y guion permitidos.');
+			} else {
+				clearError(errEl);
+			}
+		}
+
+		// C.I.: permitir sólo dígitos en tiempo real y validar rango según prefijo
+		function validarCIInput(input) {
+			const cleaned = input.value.replace(/\D/g, '');
+			const errEl = document.getElementById('ciError');
+			if (cleaned !== input.value) {
+				input.value = cleaned;
+				setError(errEl, 'Sólo números permitidos en la cédula');
+			}
+			// validar rango si tiene al menos 1 dígito
+			const num = parseInt(cleaned, 10);
+			const prefijo = document.getElementById('ciPrefijo').value;
+			if (!isNaN(num)) {
+				// Si es V, validar rango. Si es E, no hay límites.
+				if (prefijo === 'V' && !(num > 1000000 && num < 35000000)) {
+					setError(errEl, 'La cédula V debe ser > 1.000.000 y < 35.000.000');
+				} else {
+					clearError(errEl);
+				}
+			} else {
+				// si está vacío
+				setError(errEl, 'La cédula es obligatoria');
+			}
+		}
+
+		// Teléfono: permitir + y dígitos en tiempo real; validar formato al perder foco
+		function filtrarTelefono(input) {
+			const cleaned = input.value.replace(/[^+\d]/g, '');
+			const errEl = document.getElementById('telefonoError');
+			if (cleaned !== input.value) {
+				input.value = cleaned;
+				setError(errEl, 'Caracter inválido eliminado');
+			} else {
+				clearError(errEl);
+			}
+		}
+
+		function validarTelefono(input) {
+			const v = input.value.trim();
+			// Aceptar cualquier teléfono que empiece con + seguido de dígitos, o 04 seguido de dígitos
+			const patrones = [/^\+\d+$/, /^04\d+$/];
+			const errEl = document.getElementById('telefonoError');
+			const ok = patrones.some(r => r.test(v));
+			if (!ok) {
+				setError(errEl, 'Formato inválido');
+			} else {
+				clearError(errEl);
+			}
+			return ok;
+		}
+
+		// Correo: validar formato simple y sólo un arroba
+		function validarCorreo(input) {
+			const v = input.value.trim();
+			const errEl = document.getElementById('correoError');
+			if (v.length === 0) { setError(errEl, 'El correo es obligatorio'); return false; }
+			if ((v.match(/@/g) || []).length !== 1) {
+				setError(errEl, 'El correo debe contener un solo @');
+				return false;
+			}
+			const simple = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!simple.test(v)) {
+				setError(errEl, 'Formato de correo inválido');
+				return false;
+			}
+			clearError(errEl);
+			return true;
+		}
+
+		// Estado del formulario multi-paso
+		let currentStep = 1;
+
+		// Actualizar UI del paso actual
+		function updateStepUI() {
+			// Mostrar/ocultar secciones
+			for (let i = 1; i <= 4; i++) {
+				const sec = document.getElementById('seccion' + i);
+				if (sec) sec.style.display = i === currentStep ? 'block' : 'none';
+			}
+			
+			// Actualizar número de página
+			document.getElementById('numPagina').textContent = currentStep + '/4';
+			
+			// Actualizar botones
+			const btnAtras = document.getElementById('btnAtras');
+			const btnSiguiente = document.getElementById('btnSiguiente');
+			
+			if (!btnAtras || !btnSiguiente) return; // Salir si los botones no existen
+			
+			if (currentStep === 1) {
+				btnAtras.style.visibility = 'hidden';
+			} else {
+				btnAtras.style.visibility = 'visible';
+			}
+			
+			if (currentStep === 4) {
+				btnSiguiente.textContent = 'Enviar';
+				btnSiguiente.onclick = async function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					await enviarFormulario();
+				};
+			} else {
+				btnSiguiente.textContent = 'Siguiente';
+				btnSiguiente.onclick = function() {
+					if (validarPaso(currentStep)) {
+						currentStep++;
+						updateStepUI();
+						// Ajustar altura del contenedor
+						setTimeout(() => {
+							const multiPane = document.querySelector('.multi-pane');
+							if (multiPane) {
+								const form = multiPane.querySelector('.pane-form');
+								if (form) {
+									multiPane.style.minHeight = form.scrollHeight + 'px';
+								}
+							}
+						}, 50);
+					}
+				};
+			}
+		}
+
+		// Validar paso actual
+		function validarPaso(paso) {
+			if (paso === 1) {
+				// Validar nombres
+				const nombres = document.getElementById('nombres').value.trim();
+				if (!nombres) {
+					setError(document.getElementById('nombresError'), 'Los nombres son obligatorios');
+					return false;
+				}
+				
+				// Validar apellidos
+				const apellidos = document.getElementById('apellidos').value.trim();
+				if (!apellidos) {
+					setError(document.getElementById('apellidosError'), 'Los apellidos son obligatorios');
+					return false;
+				}
+				
+				// Validar cédula
+				const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
+				const ciNum = parseInt(ciVal, 10);
+				const ciPrefijo = document.getElementById('ciPrefijo').value;
+				if (isNaN(ciNum) || ciVal.length === 0) {
+					setError(document.getElementById('ciError'), 'La cédula es obligatoria');
+					return false;
+				}
+				if (ciPrefijo === 'V' && !(ciNum > 1000000 && ciNum < 35000000)) {
+					setError(document.getElementById('ciError'), 'La cédula V debe ser > 1.000.000 y < 35.000.000');
+					return false;
+				}
+				
+				clearError(document.getElementById('nombresError'));
+				clearError(document.getElementById('apellidosError'));
+				clearError(document.getElementById('ciError'));
+				return true;
+			}
+			
+			if (paso === 2) {
+				// Validar bachiller
+				const esBachiller = document.getElementById('esBachiller').value;
+				if (!esBachiller) {
+					alert('Por favor selecciona si eres bachiller');
+					return false;
+				}
+				
+				// Validar universidad
+				const estudiaUniversidad = document.getElementById('estudiaUniversidad').value;
+				if (!estudiaUniversidad) {
+					alert('Por favor selecciona si estudias en universidad');
+					return false;
+				}
+				
+				if (estudiaUniversidad === 'si') {
+					const uni = document.getElementById('universidadNombre').value.trim();
+					const carrera = document.getElementById('universidadCarrera').value.trim();
+					if (!uni || !carrera) {
+						alert('Por favor completa la universidad y carrera');
+						return false;
+					}
+				}
+				
+				return true;
+			}
+			
+			if (paso === 3) {
+				// Validar teléfono
+				if (!validarTelefono(document.getElementById('telefono'))) return false;
+				
+				// Validar correo
+				if (!validarCorreo(document.getElementById('correo'))) return false;
+				
+				return true;
+			}
+			
+			if (paso === 4) {
+				// En el paso 4, no hay validación especial, sólo el envío
+				return true;
+			}
+			
+			return true;
+		}
+
+		// Navegar formulario hacia adelante o atrás
+		function navegarFormulario(direccion) {
+			if (direccion === -1) {
+				// Atrás
+				if (currentStep > 1) {
+					currentStep--;
+					updateStepUI();
+					setTimeout(() => {
+						const multiPane = document.querySelector('.multi-pane');
+						if (multiPane) {
+							const form = multiPane.querySelector('.pane-form');
+							if (form) {
+								multiPane.style.minHeight = form.scrollHeight + 'px';
+							}
+						}
+					}, 50);
+				}
+			} else if (direccion === 1) {
+				// Adelante - se valida en el onclick del botón
+			}
+		}
+
+		// Actualizar mensaje de pago
+		function actualizarMensajePago() {
+			const metodoPago = document.getElementById('metodoPago').value;
+			const mensajePago = document.getElementById('mensajePago');
+			
+			if (metodoPago === 'transferencia') {
+				mensajePago.innerHTML = 'Transferencia en bolívares el día de la inscripción a tasa BCV del monto de 135$.';
+			} else if (metodoPago === 'dolares') {
+				mensajePago.innerHTML = 'Dólares en efectivo. El monto será de $135 USD.';
+			}
+		}
+
+		// Enviar formulario
+		async function enviarFormulario() {
+			// Validaciones finales
+			const ciVal = document.getElementById('ciNumero').value.replace(/\D/g,'');
+			const ciNum = parseInt(ciVal, 10);
+			if (isNaN(ciNum) || !(ciNum > 1000000 && ciNum < 35000000)) {
+				setError(document.getElementById('ciError'), 'La cédula debe ser > 1.000.000 y < 35.000.000');
+				currentStep = 1;
+				updateStepUI();
+				return;
+			}
+
+			if (!validarTelefono(document.getElementById('telefono'))) {
+				currentStep = 3;
+				updateStepUI();
+				return;
+			}
+			
+			if (!validarCorreo(document.getElementById('correo'))) {
+				currentStep = 3;
+				updateStepUI();
+				return;
+			}
+
+			// Declarar variables de configuración
+			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
+			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz390ZADfDloxFx-KDbRcVRBhKc8jVPPaGEE0uwqPLFE8vNeYJh0BseFgwfUwDro3n7jg/exec';
+			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
+			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
+
+			// Preparar payload
+			// agregar fecha actual en formato YY-MM-DD HH:MM:SS
+			const now = new Date();
+			const pad = n => n.toString().padStart(2, '0');
+			const fecha = `${now.getFullYear().toString().slice(-2)}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+			const payload = {
+				nombres: document.getElementById('nombres').value.trim(),
+				apellidos: document.getElementById('apellidos').value.trim(),
+				prefijo_ci: document.getElementById('ciPrefijo').value,
+				ci: document.getElementById('ciNumero').value.replace(/\D/g,''),
+				es_bachiller: document.getElementById('esBachiller').value,
+				colegio: document.getElementById('colegioProcedencia').value || '',
+				estudia_universidad: document.getElementById('estudiaUniversidad').value,
+				universidad: document.getElementById('universidadNombre').value || '',
+				carrera: document.getElementById('universidadCarrera').value || '',
+				metodo_pago: document.getElementById('metodoPago').value,
+				telefono: document.getElementById('telefono').value.trim(),
+				correo: document.getElementById('correo').value.trim(),
+				fecha: fecha, // añadida al final
+				token: APPS_SCRIPT_TOKEN
+			};
+
+			const btn = document.getElementById('btnSiguiente');
+			btn.disabled = true;
+			btn.textContent = 'Enviando...';
+
+			try {
+				const resp = await fetch(API_URL, {
+					method: 'POST',
+					mode: isNivelMatPages ? 'no-cors' : 'cors',
+					headers: { 'Content-Type': 'text/plain', 'Accept': 'application/json' },
+					body: JSON.stringify(payload)
+				});
+				
+				if (isNivelMatPages) {
+					// Google Apps Script: mostrar éxito sin esperar respuesta
+					if (window.setActivePane) window.setActivePane('success');
+					// Resetear formulario
+					currentStep = 1;
+					document.getElementById('nombres').value = '';
+					document.getElementById('apellidos').value = '';
+					document.getElementById('ciNumero').value = '';
+					document.getElementById('esBachiller').value = '';
+					document.getElementById('colegioProcedencia').value = '';
+					document.getElementById('estudiaUniversidad').value = '';
+					document.getElementById('universidadNombre').value = '';
+					document.getElementById('universidadCarrera').value = '';
+					document.getElementById('telefono').value = '';
+					document.getElementById('correo').value = '';
+					document.getElementById('metodoPago').value = 'transferencia';
+					document.querySelectorAll('small').forEach(s => s.style.display = 'none');
+				} else {
+					// Servidor local: leer respuesta JSON
+					const data = await resp.json();
+					if (resp.ok) {
+						if (window.setActivePane) window.setActivePane('success');
+						// Resetear formulario
+						currentStep = 1;
+						document.getElementById('nombres').value = '';
+						document.getElementById('apellidos').value = '';
+						document.getElementById('ciNumero').value = '';
+						document.getElementById('esBachiller').value = '';
+						document.getElementById('colegioProcedencia').value = '';
+						document.getElementById('estudiaUniversidad').value = '';
+						document.getElementById('universidadNombre').value = '';
+						document.getElementById('universidadCarrera').value = '';
+						document.getElementById('telefono').value = '';
+						document.getElementById('correo').value = '';
+						document.getElementById('metodoPago').value = 'transferencia';
+						document.querySelectorAll('small').forEach(s => s.style.display = 'none');
+					} else {
+						alert('Error al enviar: ' + (data.error || resp.statusText));
+					}
+				}
+			} catch (err) {
+				alert('Error: ' + err.message);
+			} finally {
+				btn.disabled = false;
+				btn.textContent = 'Enviar';
+				updateStepUI();
+			}
+		}
+
+		// Inicializar el formulario
+		window.addEventListener('DOMContentLoaded', function() {
+			// Solo inicializar si el formulario está disponible
+			const btnSiguiente = document.getElementById('btnSiguiente');
+			if (btnSiguiente) {
+				updateStepUI();
+				
+				// Ajustar altura inicial
+				setTimeout(() => {
+					const multiPane = document.querySelector('.multi-pane');
+					if (multiPane) {
+						const form = multiPane.querySelector('.pane-form');
+						if (form) {
+							multiPane.style.minHeight = form.scrollHeight + 'px';
+						}
+					}
+				}, 100);
+			}
+		});
+	</script>
+	<footer class="footer-nivelmat fadein delay3" style="background:transparent;color:#888;font-size:1em;text-align:center;padding:18px 0 10px 0;margin-top:32px;letter-spacing:0.5px;box-shadow:none;">
+		© 2025 NivelMat – Escuela de Matemática, UCV
+	</footer>
+</body>
+</html>
