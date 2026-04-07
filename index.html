@@ -241,8 +241,25 @@
 					</div>
 				</div>
 
-				<!-- Sección 4: Datos de Pago -->
+				<!-- Sección 4: Verificación por correo -->
 				<div class="form-section" id="seccion4" style="display:none;">
+					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Código de verificación</h3>
+					<p style="color:#666;line-height:1.6;margin-bottom:16px;">
+						Se enviará un código de verificación a tu correo. Ingresa el código recibido para continuar.
+					</p>
+					<div style="margin-bottom:16px;">
+						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Código de verificación <span style="color:#d32f2f;">*</span></label>
+						<input id="codigoVerificacion" type="text" placeholder="Ingresa el código" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:1em;box-sizing:border-box;" oninput="clearError(document.getElementById('codigoError'))">
+						<small id="codigoError" style="display:none;color:#d32f2f;margin-top:6px;font-size:0.9em;"></small>
+					</div>
+					<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+						<button type="button" id="reenviarCodigoBtn" class="interesado-btn" style="background:#eee;color:#222;border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;font-size:1em;">Reenviar código</button>
+						<span id="codigoStatus" style="color:#444;font-size:0.95em;">Aún no se ha enviado el código.</span>
+					</div>
+				</div>
+
+				<!-- Sección 5: Datos de Pago -->
+				<div class="form-section" id="seccion5" style="display:none;">
 					<h3 style="color:#222;margin-top:0;margin-bottom:20px;">Datos de Pago</h3>
 					<div style="margin-bottom:16px;">
 						<label style="display:block;margin-bottom:6px;font-weight:600;color:#222;">Método de pago <span style="color:#d32f2f;">*</span></label>
@@ -527,18 +544,43 @@
 		}
 
 		// Estado del formulario multi-paso
+		const MAX_STEP = 5;
 		let currentStep = 1;
+		let verificationSent = false;
+		let verificationEmail = '';
+		const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx7oRutJD8Y2_RSdhN_rWNwpcneQrj5P0W7cL5R_wwat0MaVBImcJK5BukjfUIlk45RZA/exec';
+		const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
+		const LOCAL_API_URL = 'http://localhost:3000/api/preinscripcion';
+
+		function getApiUrl() {
+			return window.location.hostname === 'nivelmat.github.io' ? APPS_SCRIPT_ENDPOINT : LOCAL_API_URL;
+		}
+
+		function showCodigoStatus(message, isError = false) {
+			const statusEl = document.getElementById('codigoStatus');
+			if (!statusEl) return;
+			statusEl.textContent = message;
+			statusEl.style.color = isError ? '#d32f2f' : '#444';
+		}
+
+		function resetVerificationStatus() {
+			verificationSent = false;
+			verificationEmail = '';
+			showCodigoStatus('Aún no se ha enviado el código.');
+			const codigoInput = document.getElementById('codigoVerificacion');
+			if (codigoInput) codigoInput.value = '';
+		}
 
 		// Actualizar UI del paso actual
 		function updateStepUI() {
 			// Mostrar/ocultar secciones
-			for (let i = 1; i <= 4; i++) {
+			for (let i = 1; i <= MAX_STEP; i++) {
 				const sec = document.getElementById('seccion' + i);
 				if (sec) sec.style.display = i === currentStep ? 'block' : 'none';
 			}
 			
 			// Actualizar número de página
-			document.getElementById('numPagina').textContent = currentStep + '/4';
+			document.getElementById('numPagina').textContent = currentStep + '/' + MAX_STEP;
 			
 			// Actualizar botones
 			const btnAtras = document.getElementById('btnAtras');
@@ -552,31 +594,134 @@
 				btnAtras.style.visibility = 'visible';
 			}
 			
-			if (currentStep === 4) {
+			if (currentStep === MAX_STEP) {
 				btnSiguiente.textContent = 'Enviar';
 				btnSiguiente.onclick = async function(e) {
 					e.preventDefault();
 					e.stopPropagation();
 					await enviarFormulario();
 				};
+			} else if (currentStep === 4) {
+				btnSiguiente.textContent = 'Verificar código';
+				btnSiguiente.onclick = async function() {
+					await handleNextStep();
+				};
 			} else {
 				btnSiguiente.textContent = 'Siguiente';
-				btnSiguiente.onclick = function() {
-					if (validarPaso(currentStep)) {
-						currentStep++;
-						updateStepUI();
-						// Ajustar altura del contenedor
-						setTimeout(() => {
-							const multiPane = document.querySelector('.multi-pane');
-							if (multiPane) {
-								const form = multiPane.querySelector('.pane-form');
-								if (form) {
-									multiPane.style.minHeight = form.scrollHeight + 'px';
-								}
-							}
-						}, 50);
-					}
+				btnSiguiente.onclick = async function() {
+					await handleNextStep();
 				};
+			}
+		}
+
+		async function handleNextStep() {
+			if (currentStep === 3) {
+				if (!validarPaso(3)) return;
+				const sent = await enviarCodigoVerificacion();
+				if (!sent) return;
+				currentStep++;
+				updateStepUI();
+				return;
+			}
+			if (currentStep === 4) {
+				if (!validarPaso(4)) return;
+				const valid = await verificarCodigoIngresado();
+				if (!valid) return;
+				currentStep++;
+				updateStepUI();
+				return;
+			}
+			if (currentStep < MAX_STEP) {
+				if (validarPaso(currentStep)) {
+					currentStep++;
+					updateStepUI();
+				}
+			}
+		}
+
+		async function enviarCodigoVerificacion(force = false) {
+			const correoInput = document.getElementById('correo');
+			if (!validarCorreo(correoInput)) return false;
+			const correo = correoInput.value.trim();
+			if (!force && verificationSent && verificationEmail === correo) {
+				showCodigoStatus('Código ya enviado a ' + correo + '.');
+				return true;
+			}
+			const btn = document.getElementById('reenviarCodigoBtn');
+			if (btn) btn.disabled = true;
+			showCodigoStatus('Enviando código...', false);
+			try {
+				const resp = await fetch(getApiUrl(), {
+					method: 'POST',
+					mode: 'cors',
+					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+					body: JSON.stringify({
+						action: 'send_code',
+						correo: correo,
+						token: APPS_SCRIPT_TOKEN
+					})
+				});
+				const data = await resp.json();
+				if (resp.ok && data.success) {
+					verificationSent = true;
+					verificationEmail = correo;
+					showCodigoStatus('Código enviado a ' + correo + '.', false);
+					return true;
+				}
+				showCodigoStatus(data.error || 'No se pudo enviar el código.', true);
+				return false;
+			} catch (err) {
+				showCodigoStatus('Error enviando el código: ' + err.message, true);
+				return false;
+			} finally {
+				if (btn) btn.disabled = false;
+			}
+		}
+
+		async function verificarCodigoIngresado() {
+			const codigoInput = document.getElementById('codigoVerificacion');
+			const codigo = codigoInput.value.trim();
+			const errEl = document.getElementById('codigoError');
+			const correoInput = document.getElementById('correo');
+			const correo = correoInput.value.trim();
+			if (!codigo) {
+				setError(errEl, 'El código es obligatorio');
+				return false;
+			}
+			if (!verificationSent || verificationEmail !== correo) {
+				const sent = await enviarCodigoVerificacion(true);
+				if (!sent) return false;
+			}
+			const btn = document.getElementById('btnSiguiente');
+			if (btn) btn.disabled = true;
+			showCodigoStatus('Verificando código...', false);
+			try {
+				const resp = await fetch(getApiUrl(), {
+					method: 'POST',
+					mode: 'cors',
+					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+					body: JSON.stringify({
+						action: 'verify_code',
+						correo: correo,
+						codigo: codigo,
+						token: APPS_SCRIPT_TOKEN
+					})
+				});
+				const data = await resp.json();
+				if (resp.ok && data.success) {
+					clearError(errEl);
+					showCodigoStatus('Código verificado correctamente.', false);
+					return true;
+				}
+				setError(errEl, data.error || 'Código incorrecto');
+				showCodigoStatus(data.error || 'Código incorrecto', true);
+				return false;
+			} catch (err) {
+				setError(errEl, 'Error verificando el código');
+				showCodigoStatus('Error verificando el código: ' + err.message, true);
+				return false;
+			} finally {
+				if (btn) btn.disabled = false;
 			}
 		}
 
@@ -654,7 +799,16 @@
 			}
 			
 			if (paso === 4) {
-				// En el paso 4, no hay validación especial, sólo el envío
+				const codigo = document.getElementById('codigoVerificacion').value.trim();
+				if (!codigo) {
+					setError(document.getElementById('codigoError'), 'Ingresa el código recibido');
+					return false;
+				}
+				clearError(document.getElementById('codigoError'));
+				return true;
+			}
+			
+			if (paso === 5) {
 				return true;
 			}
 			
@@ -664,7 +818,6 @@
 		// Navegar formulario hacia adelante o atrás
 		function navegarFormulario(direccion) {
 			if (direccion === -1) {
-				// Atrás
 				if (currentStep > 1) {
 					currentStep--;
 					updateStepUI();
@@ -679,7 +832,7 @@
 					}, 50);
 				}
 			} else if (direccion === 1) {
-				// Adelante - se valida en el onclick del botón
+				handleNextStep();
 			}
 		}
 
@@ -720,10 +873,7 @@
 			}
 
 			// Declarar variables de configuración
-			const isNivelMatPages = window.location.hostname === 'nivelmat.github.io';
-			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx7oRutJD8Y2_RSdhN_rWNwpcneQrj5P0W7cL5R_wwat0MaVBImcJK5BukjfUIlk45RZA/exec';
-			const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
-			const API_URL = isNivelMatPages ? APPS_SCRIPT_ENDPOINT : 'http://localhost:3000/api/preinscripcion';
+			const API_URL = getApiUrl();
 
 			// Preparar payload
 			// agregar fecha actual en formato YY-MM-DD HH:MM:SS
@@ -744,6 +894,7 @@
 				metodo_pago: document.getElementById('metodoPago').value,
 				telefono: document.getElementById('telefono').value.trim(),
 				correo: document.getElementById('correo').value.trim(),
+				codigo_verificacion: document.getElementById('codigoVerificacion').value.trim(),
 				fecha: fecha, // añadida al final
 				token: APPS_SCRIPT_TOKEN
 			};
@@ -755,15 +906,14 @@
 			try {
 				const resp = await fetch(API_URL, {
 					method: 'POST',
-					mode: isNivelMatPages ? 'no-cors' : 'cors',
-					headers: { 'Content-Type': 'text/plain', 'Accept': 'application/json' },
+					mode: 'cors',
+					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
 					body: JSON.stringify(payload)
 				});
 				
-				if (isNivelMatPages) {
-					// Google Apps Script: mostrar éxito sin esperar respuesta
+				const data = await resp.json();
+				if (resp.ok && data.success) {
 					if (window.setActivePane) window.setActivePane('success');
-					// Resetear formulario
 					currentStep = 1;
 					document.getElementById('nombres').value = '';
 					document.getElementById('apellidos').value = '';
@@ -776,29 +926,11 @@
 					document.getElementById('telefono').value = '';
 					document.getElementById('correo').value = '';
 					document.getElementById('metodoPago').value = 'transferencia';
+					document.getElementById('codigoVerificacion').value = '';
+					resetVerificationStatus();
 					document.querySelectorAll('small').forEach(s => s.style.display = 'none');
 				} else {
-					// Servidor local: leer respuesta JSON
-					const data = await resp.json();
-					if (resp.ok) {
-						if (window.setActivePane) window.setActivePane('success');
-						// Resetear formulario
-						currentStep = 1;
-						document.getElementById('nombres').value = '';
-						document.getElementById('apellidos').value = '';
-						document.getElementById('ciNumero').value = '';
-						document.getElementById('esBachiller').value = '';
-						document.getElementById('colegioProcedencia').value = '';
-						document.getElementById('estudiaUniversidad').value = '';
-						document.getElementById('universidadNombre').value = '';
-						document.getElementById('universidadCarrera').value = '';
-						document.getElementById('telefono').value = '';
-						document.getElementById('correo').value = '';
-						document.getElementById('metodoPago').value = 'transferencia';
-						document.querySelectorAll('small').forEach(s => s.style.display = 'none');
-					} else {
-						alert('Error al enviar: ' + (data.error || resp.statusText));
-					}
+					alert('Error al enviar: ' + (data.error || resp.statusText));
 				}
 			} catch (err) {
 				alert('Error: ' + err.message);
@@ -813,8 +945,17 @@
 		window.addEventListener('DOMContentLoaded', function() {
 			// Solo inicializar si el formulario está disponible
 			const btnSiguiente = document.getElementById('btnSiguiente');
+			const btnReenviar = document.getElementById('reenviarCodigoBtn');
 			if (btnSiguiente) {
 				updateStepUI();
+				
+				if (btnReenviar) {
+					btnReenviar.addEventListener('click', function() {
+						enviarCodigoVerificacion(true);
+					});
+				}
+				
+				resetVerificationStatus();
 				
 				// Ajustar altura inicial
 				setTimeout(() => {
