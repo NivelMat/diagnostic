@@ -548,7 +548,7 @@
 		let currentStep = 1;
 		let verificationSent = false;
 		let verificationEmail = '';
-			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzF3OjBtrH5JUKZGZqMatukgMVf4zWUUyblg1qSaI6OY51Vxn4gFB5pif151t6wIwxhOg/exec';
+			const APPS_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbw5JZpPPer68nf9zJaRW6HFp4xcistTJMrX6pJvZF4hiPrjDaL3jnhYE3G9HRK53JHUiw/exec';
 		const APPS_SCRIPT_TOKEN = 'qFsPnoyLV8fu51pqbkiRcT84ptajwFsh7y3zveaNsj4LNh2Qmv';
 		const LOCAL_API_URL = 'http://localhost:3000/api/preinscripcion';
 
@@ -654,7 +654,7 @@
 				const resp = await fetch(getApiUrl(), {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json' },
 					body: JSON.stringify({
 						action: 'send_code',
 						correo: correo,
@@ -699,7 +699,7 @@
 				const resp = await fetch(getApiUrl(), {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json' },
 					body: JSON.stringify({
 						action: 'verify_code',
 						correo: correo,
@@ -907,10 +907,9 @@
 				const resp = await fetch(API_URL, {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json' },
 					body: JSON.stringify(payload)
 				});
-				
 				const data = await resp.json();
 				if (resp.ok && data.success) {
 					if (window.setActivePane) window.setActivePane('success');
