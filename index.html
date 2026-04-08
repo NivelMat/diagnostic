@@ -654,7 +654,7 @@
 				const resp = await fetch(getApiUrl(), {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 					body: JSON.stringify({
 						action: 'send_code',
 						correo: correo,
@@ -699,7 +699,7 @@
 				const resp = await fetch(getApiUrl(), {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 					body: JSON.stringify({
 						action: 'verify_code',
 						correo: correo,
@@ -907,7 +907,7 @@
 				const resp = await fetch(API_URL, {
 					method: 'POST',
 					mode: 'cors',
-					headers: { 'Accept': 'application/json' },
+					headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 					body: JSON.stringify(payload)
 				});
 				const data = await resp.json();
