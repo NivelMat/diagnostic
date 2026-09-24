@@ -47,6 +47,20 @@
 				height: auto;
 				margin-bottom: 12px;
 			}
+			.logos-institucionales {
+				display: flex;
+				justify-content: center;
+				gap: clamp(8px, 2vw, 20px);
+				align-items: center;
+				margin: 12px 0 16px;
+				flex-wrap: wrap;
+			}
+			.logo-institucion {
+				flex: 0 1 clamp(72px, 18vw, 150px);
+				width: 100%;
+				height: clamp(36px, 7vw, 60px);
+				object-fit: contain;
+			}
 			.titulo-nivelmat {
 				font-size: 2em;
 				font-weight: 700;
@@ -100,7 +114,6 @@
 				.titulo-nivelmat { font-size: 1.2em; }
 				.logo-nivelmat { width: 60px; }
 				.boton-esferico { padding: 8px 16px; font-size: 0.95em; }
-				.logo-institucion { height: 42px !important; max-width: calc(50vw - 32px); object-fit: contain; }
 			}
 			.footer-nivelmat {
 				width: 100%;
@@ -173,11 +186,11 @@
 </head>
 <body>
 	<div class="superior">
-		<div style="display: flex; justify-content: center; gap: 20px; align-items: center; margin: 12px 0 16px 0; flex-wrap: wrap;">
-			<img src="ucv.png" alt="Logo UCV" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="fc.png" alt="Logo Facultad de Ciencias" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="cefc.png" alt="Logo Comisión de Extensión" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
-			<img src="em.png" alt="Logo Escuela de Matemática" class="logo-institucion fadein delay1" style="height: 60px; width: auto;" />
+		<div class="logos-institucionales">
+			<img src="ucv.png" alt="Logo UCV" class="logo-institucion fadein delay1" />
+			<img src="fc.png" alt="Logo Facultad de Ciencias" class="logo-institucion fadein delay1" />
+			<img src="cefc.png" alt="Logo Comisión de Extensión" class="logo-institucion fadein delay1" />
+			<img src="em.png" alt="Logo Escuela de Matemática" class="logo-institucion fadein delay1" />
 		</div>
 		<img src="nivelmat.png" alt="Logo NivelMat" class="logo-nivelmat fadein delay1" />
 		<div class="titulo-nivelmat fadein delay2">NivelMat - Curso de Nivelación Matemática</div>
